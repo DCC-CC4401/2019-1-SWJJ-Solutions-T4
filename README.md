@@ -5,7 +5,7 @@ Creación de app web que automatice el uso de rúbricas para evaluaciones en el 
 
 * **Pablo Torres** - [pabtorres](https://github.com/pabtorres)
 * **Cristián Llull Torres** - [CILT](https://github.com/CILT)
-* **Camila Quilape** - [CamilaQuilape](https://github.com/camilaquilape)
+* **Sofía Castro** - [cinnamontea](https://github.com/cinnamontea)
 * **Andrea Park** - [APrkKwk](https://github.com/aprkkwk)
 
 
