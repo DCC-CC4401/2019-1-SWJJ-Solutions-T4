@@ -7,5 +7,4 @@ Creación de app web que automatice el uso de rúbricas para evaluaciones en el 
 * **Cristián Llull Torres** - [CILT](https://github.com/CILT)
 * **Sofía Castro** - [cinnamontea](https://github.com/cinnamontea)
 * **Brandon Peña** - [brandonHaipas](https://github.com/brandonHaipas)
-
-
+* **David de la Puente** - [daviddelapuente](https://github.com/daviddelapuente)
