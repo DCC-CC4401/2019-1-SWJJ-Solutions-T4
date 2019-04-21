@@ -1,4 +1,4 @@
-# Proyecto Lambda-Ideas
+﻿# Proyecto Lambda-Ideas
 Creación de app web que automatice el uso de rúbricas para evaluaciones en el ambito académico
 
 ## Authors
@@ -6,6 +6,6 @@ Creación de app web que automatice el uso de rúbricas para evaluaciones en el 
 * **Pablo Torres** - [pabtorres](https://github.com/pabtorres)
 * **Cristián Llull Torres** - [CILT](https://github.com/CILT)
 * **Sofía Castro** - [cinnamontea](https://github.com/cinnamontea)
-* **Andrea Park** - [APrkKwk](https://github.com/aprkkwk)
+* **Brandon Peña** - [brandonHaipas](https://github.com/brandonHaipas)
 
 
