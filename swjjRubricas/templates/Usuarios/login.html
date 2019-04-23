@@ -56,7 +56,7 @@
           {% if user.is_authenticated %}
             <p>La sesión ya ha sido iniciada</p>
           {% else %}
-            <form action="{% url 'usuarios:menu' %}" method="post" id="login_form">
+            <form action="{% url 'usuarios:landing_admin' %}" method="post" id="login_form">
               {% csrf_token %}
               <div class="form-group has-feedback">
                   <input name="usuario" class="form-control" placeholder="Nombre de usuario" type="text">
@@ -73,7 +73,7 @@
           {% if user.is_authenticated %}
           {% else %}
             <button type="button" class="btn btn-danger" style="float: left" data-dismiss="modal">Cerrar</button>
-            <a class="btn btn-primary" href="{% url 'usuarios:menu' %}">Registrarse</a>
+            <a class="btn btn-primary" href="{% url 'usuarios:landing_admin' %}">Registrarse</a>
             <button type="button" class="btn btn-success" onclick="$('#login_form').submit()">Login</button>
           {% endif %}
         </div>
