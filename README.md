@@ -31,6 +31,13 @@ for new users it's heavily recommended to use Pipenv with the following command 
 
 ``` pipenv install ```
 
+<<<<<<< HEAD
+=======
+* **Pablo Torres** - [pabtorres](https://github.com/pabtorres)
+* **Cristián Llull Torres** - [CILT](https://github.com/CILT)
+* **Sofía Castro** - [cinnamontea](https://github.com/cinnamontea)
+* **Andrea Park** - [APrkKwk](https://github.com/aprkkwk)
+>>>>>>> 8dabf69531ff019bd7ea344c4c63a54e1c5da254
 
 ## Executing
 
