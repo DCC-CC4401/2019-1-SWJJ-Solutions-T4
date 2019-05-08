@@ -159,3 +159,6 @@ coverage.xml
 docs/_build/
 
 # End of gitignore for Django
+
+# Avoid uploading databases
+db.sqlite3
