@@ -2,7 +2,6 @@ from django.urls import path
 
 from . import views
 
-
 urlpatterns = [
     path('', views.login, name='login'),
     path('landing_admin/<int:usuario_id>/', views.menu, name='landing_admin'),
