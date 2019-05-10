@@ -17,13 +17,15 @@ body {font-size:16px;}
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
-    <!--Profile image -->
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">✖</a>
+    <!-- Profile image -->
   <div class="w3-container">
-      <p class="w3-center"><img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="height:200px;width:200px" alt="Avatar"></p>
-    <h3 class="w3-padding-64"><center><b>{{ usuario.name }}</b></center></h3>
+      <p class="w3-center"><img src="https://www.w3schools.com/w3images/avatar2.png" class="w3-circle" style="height:150px" alt="Avatar"></p>
+    <h3 class="w3-padding-47"><center><b>{{ usuario.name }}</b></center></h3>
   </div>
+  <!-- Menu options -->
   <div class="w3-bar-block">
+    <br>
     <a href="{% url 'usuarios:landing_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
     <a href="{% url 'usuarios:cursos_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Cursos</a>
     <a href="{% url 'usuarios:evaluadores_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluadores</a>
