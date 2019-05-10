@@ -67,3 +67,15 @@ From now on, you just need the following command to start this project's local s
 * **David de la Puente** - [daviddelapuente](https://github.com/daviddelapuente)
 * **Pablo Torres** - [pabtorres](https://github.com/pabtorres)
 * **Sofía Castro** - [cinnamontea](https://github.com/cinnamontea)
+
+
+##problemas
+1) login:
+ 
+ 1.1)al hacer login, no se hace un checkeo de los inputs para posibles
+ inyeciones sql o html (se debe revisar en Usuarios/views.py la funcion login)
+ 
+ 1.2)al registrarse, un usuario puede escribir un nombre ya existente (se debe mejorar
+ registrar, se debe revisar en Usuario/views registro y quizas el modelo)
+ 
+ 1.3) si un usuario se logea y se equivoca, sale un error bastante feo (se debe revisar login)
