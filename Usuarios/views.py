@@ -15,6 +15,17 @@ from .models import Usuario_admin
 
 
 def login(request):
+    if request.POST:
+        username = request.POST.get('usuario')
+        password = request.POST.get('password')
+
+        user = Usuario_admin.objects.get(name=username,password=password)
+
+
+        if user is not None:
+            return HttpResponseRedirect(reverse('usuarios:landing_admin', kwargs={'usuario_id': user.id}))
+
+
     return render(request, 'Usuarios/login.html')
 
 def menu(request,usuario_id):

@@ -54,7 +54,7 @@
         </div>
         <div class="modal-body">
 
-            <form action="{% url 'usuarios:cursos_admin' %}" method="post" id="login_form">
+            <form action="{% url 'usuarios:login' %}" method="post" id="login_form">
               {% csrf_token %}
               <div class="form-group has-feedback">
                   <input name="usuario" class="form-control" placeholder="Nombre de usuario" type="text">
