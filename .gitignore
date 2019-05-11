@@ -162,3 +162,6 @@ docs/_build/
 
 # Avoid uploading databases
 db.sqlite3
+
+# Ignore migrations folder
+Usuarios/migrations
