@@ -11,9 +11,13 @@ class Usuario_admin(models.Model):
   password=models.CharField(max_length=50)
 
 class Course(models.Model):
-
   nombreCurso = models.CharField(max_length=250, help_text='Nombre del curso ')
   codigoCurso = models.CharField(max_length=8, help_text='Codigo curso ')
   numSeccionCurso = models.IntegerField( help_text='Numero seccion del curso')
   anioCurso = models.IntegerField( help_text='Año del curso ')
   semesterCurso = models.IntegerField( help_text='Semestre ')
+
+class Usuario_evaluador(models.Model):
+  nombreEvaluador=models.CharField(max_length=200)
+  app_paterno=models.CharField(max_length=200,blank=True,null=True)
+  correo=models.EmailField(max_length=200)
