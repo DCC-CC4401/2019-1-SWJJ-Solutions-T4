@@ -8,8 +8,10 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 ##
 
+##formularios
 from .forms import RegistroUsuarioForm
-
+from .forms import NuevoCurso
+##
 from .models import Usuario_admin
 
 
@@ -35,7 +37,20 @@ def menu(request, usuario_id):
 
 def cursos_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Cursos_admin.html', {'usuario': usuario})
+
+
+    if request.POST:
+        form = NuevoCurso(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+
+    form = NuevoCurso()
+
+
+
+    ##le paso el form, nuevo_curso a la pagina.
+    return render(request, 'Usuarios/Admin/Cursos_admin.html', {'usuario': usuario,'nuevo_curso': form})
 
 
 def evaluaciones_admin(request, usuario_id):

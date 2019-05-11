@@ -1,5 +1,6 @@
 from django import forms
 from .models import Usuario_admin
+from .models import Course
 
 
 class RegistroUsuarioForm(forms.Form):
@@ -28,3 +29,33 @@ class RegistroUsuarioForm(forms.Form):
 
         admin.save()
         return admin
+
+
+class NuevoCurso(forms.Form):
+
+
+    nombreCurso=forms.CharField(max_length=250,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           required=True)
+    codigoCurso=forms.CharField(max_length=8,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           required=True)
+    numSeccionCurso=forms.IntegerField(
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           required=True)
+    anioCurso=forms.IntegerField(
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           required=True)
+    semesterCurso=forms.IntegerField(
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           required=True)
+
+
+    def is_valid(self):
+        return super(NuevoCurso, self).is_valid()
+
+    def save(self, *args, **kwargs):
+        course = Course(nombreCurso=self.cleaned_data['nombreCurso'], codigoCurso=self.cleaned_data['codigoCurso'], numSeccionCurso=self.cleaned_data['numSeccionCurso'], anioCurso=self.cleaned_data['anioCurso'], semesterCurso=self.cleaned_data['semesterCurso'])
+
+        course.save()
+        return course
