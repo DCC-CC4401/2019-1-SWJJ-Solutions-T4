@@ -12,7 +12,7 @@ from django.contrib.auth import logout
 from .forms import RegistroUsuarioForm
 from .forms import NuevoCurso
 ##
-from .models import Usuario_admin
+from .models import Usuario_admin, Course
 
 
 def login(request):
@@ -27,6 +27,10 @@ def login(request):
 
     return render(request, 'Usuarios/login.html')
 
+def courses(request):
+    listaCursos = Course.objects.all()
+    context = {'listaCursos' : listaCursos}
+    return render(request,'cursos_admin',context)
 
 def menu(request, usuario_id):
     # aca deberia haccerse la autenticaciondel usuario.
@@ -41,7 +45,7 @@ def cursos_admin(request, usuario_id):
 
     if request.POST:
         form = NuevoCurso(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid(): # si no no crea los cleaned data
             form.save()
 
 

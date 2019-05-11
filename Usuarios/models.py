@@ -17,3 +17,8 @@ class Course(models.Model):
   numSeccionCurso = models.IntegerField( help_text='Numero seccion del curso')
   anioCurso = models.IntegerField( help_text='Año del curso ')
   semesterCurso = models.IntegerField( help_text='Semestre ')
+
+  def __str__(self):
+    return self.nombreCurso
+
+
