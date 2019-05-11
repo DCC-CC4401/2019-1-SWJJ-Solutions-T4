@@ -17,3 +17,10 @@ class Course(models.Model):
   numSeccionCurso = models.IntegerField( help_text='Numero seccion del curso')
   anioCurso = models.IntegerField( help_text='Año del curso ')
   semesterCurso = models.IntegerField( help_text='Semestre ')
+
+class Usuario_evaluador(models.Model):
+
+  name=models.CharField(max_length=200)
+  app_paterno=models.CharField(max_length=200, blank=True, null=True)
+  correo=models.EmailField(max_length=200)
+

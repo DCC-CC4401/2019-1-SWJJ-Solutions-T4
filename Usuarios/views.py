@@ -11,6 +11,7 @@ from django.contrib.auth import logout
 ##formularios
 from .forms import RegistroUsuarioForm
 from .forms import NuevoCurso
+from .forms import NuevoEvaluador
 ##
 from .models import Usuario_admin
 
@@ -60,7 +61,13 @@ def evaluaciones_admin(request, usuario_id):
 
 def evaluadores_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario})
+    if request.POST:
+        form = NuevoEvaluador(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    form = NuevoEvaluador()
+    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_evaluador': form})
 
 
 def rubricas_admin(request, usuario_id):

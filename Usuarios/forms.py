@@ -1,6 +1,7 @@
 from django import forms
 from .models import Usuario_admin
 from .models import Course
+from .models import Usuario_evaluador
 
 
 class RegistroUsuarioForm(forms.Form):
@@ -59,3 +60,20 @@ class NuevoCurso(forms.Form):
 
         course.save()
         return course
+
+class NuevoEvaluador(forms.Form):
+    nombre = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             required=True)
+    app_paterno = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             required=True)
+    correo = forms.EmailField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             required=True)
+
+    def is_valid(self):
+        return super(NuevoEvaluador, self).is_valid()
+
+    def save(self, *args, **kwargs):
+        evaluador= Usuario_evaluador(name=self.cleaned_data['nombre'], app_paterno=self.cleaned_data['app_paterno'], correo=self.cleaned_data['correo'])
+
+        evaluador.save()
+        return evaluador
