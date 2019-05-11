@@ -29,8 +29,7 @@ def login(request):
 
 def courses(request):
     listaCursos = Course.objects.all()
-    context = {'listaCursos' : listaCursos}
-    return render(request,'cursos_admin',context)
+    return listaCursos
 
 def menu(request, usuario_id):
     # aca deberia haccerse la autenticaciondel usuario.
@@ -48,13 +47,13 @@ def cursos_admin(request, usuario_id):
         if form.is_valid(): # si no no crea los cleaned data
             form.save()
 
-
+    listaCursos = courses(request)
     form = NuevoCurso()
 
 
 
     ##le paso el form, nuevo_curso a la pagina.
-    return render(request, 'Usuarios/Admin/Cursos_admin.html', {'usuario': usuario,'nuevo_curso': form})
+    return render(request, 'Usuarios/Admin/Cursos_admin.html', {'usuario': usuario,'nuevo_curso': form,'listaCursos' : listaCursos})
 
 
 def evaluaciones_admin(request, usuario_id):
