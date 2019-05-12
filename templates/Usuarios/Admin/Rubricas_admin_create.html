@@ -1,0 +1,60 @@
+{% extends 'Usuarios/menuAdmin.html' %}
+{%block page%}
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Portada -->
+  <div class="w3-container" id="portada" style="margin-top:80px; margin-bottom:10px">
+    <h1 class="w3-xxxlarge w3-text-red"><b>Rúbricas</b></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+  </div>
+
+<div class="w3-container">
+  <a class="w3-button w3-large w3-red w3-right w3-round" href="{% url 'usuarios:rubricas_admin' usuario.id%}" >Volver</a><br>
+</div>
+<!--Seccion rubricas-->
+
+    <!-- Formulario agregar rúbrica -->
+
+<div id="agregar" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+        <div class="w3-center"><br>
+            <!-- id="nuevo_curso", nuevo curso es una variable del post, que recibio esta pagina
+            y en nuevo_curso, viene el form-->
+            <form method="post" id="nuevo_curso" enctype="multipart/form-data">
+
+                <!--token, sirve cuando uno deja viva la sesion -->
+                {% csrf_token %}
+                <!-- en table se muestra el form-->
+                <table class="table table-bordered">
+                    <!--
+                    {% for field in nuevo_curso.hidden_fields %}
+                    {{ field }}
+                    {% endfor %}-->
+
+                    <!-- por cada campo del form, lo pongo en el html -->
+                    {% for field in nuevo_curso.visible_fields %}
+
+                    <tr>
+                    <td>{{ field.label_tag }}</td>
+                    <td>{{ field }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <button type="submit" class="btn btn-success" style="width: 100%; height: 60px; font-size: 31px; font-weight: bolder">agregar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+{%endblock page%}
