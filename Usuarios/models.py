@@ -57,7 +57,7 @@ class Criterio(models.Model):
 
 class Puntaje(models.Model):
     criterio = models.ForeignKey(Criterio, on_delete=models.CASCADE)
-    puntaje = models.IntegerField(default=0)
+    puntaje = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     texto = models.CharField(max_length=200)
 
     def __str__(self):
