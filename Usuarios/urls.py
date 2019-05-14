@@ -10,7 +10,7 @@ urlpatterns = [
     path('evaluaciones_admin/<int:usuario_id>/', views.evaluaciones_admin, name='evaluaciones_admin'),
     path('evaluadores_admin/<int:usuario_id>/', views.evaluadores_admin, name='evaluadores_admin'),
     path('rubricas_admin/<int:usuario_id>/', views.rubricas_admin, name='rubricas_admin'),
-    path('rubricas_admin_create/<int:usuario_id>/', views.rubricas_admin_edit, name='rubricas_admin_create'),
+    path('rubricas_admin_create/<int:usuario_id>/', views.rubricas_admin_create, name='rubricas_admin_create'),
 
     ##para registrarse
     path('registro/', views.registro, name='registro'),

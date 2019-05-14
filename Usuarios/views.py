@@ -51,7 +51,7 @@ def cursos_admin(request, usuario_id):
     listaCursos = courses(request)
     form = NuevoCurso()
 
-    ##le paso el form, nuevo_curso a la pagina.
+    # le paso el form, nuevo_curso a la página.
     return render(request, 'Usuarios/Admin/Cursos_admin.html',
                   {'usuario': usuario, 'nuevo_curso': form, 'listaCursos': listaCursos})
 
@@ -71,7 +71,8 @@ def rubricas_admin(request, usuario_id):
     return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario})
 
 
-def rubricas_admin_edit(request, usuario_id):
+def rubricas_admin_create(request, usuario_id):
+    # Esta es
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario})
 
