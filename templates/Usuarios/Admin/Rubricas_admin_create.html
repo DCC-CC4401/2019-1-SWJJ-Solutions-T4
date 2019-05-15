@@ -121,8 +121,35 @@ function borrarFila() {
 function borrarColumna() {
     let a=document.getElementById("matriz").getElementsByClassName("button");
 
-    let b=a.item(0).getElementsByClassName("thD").length;
-    console.log(b);
+    let numberOfcols=a.item(1).getElementsByClassName("thD").length;
+    let numberOfrows=a.length;
+
+    let b="<tr class=\"button\">";
+    b=b+"<th class=\"thD\"></th>";
+    b=b+" <th class=\"thD\">Asignar puntajes    <i class=\"fas fa-edit\"></i></th>";
+
+    for(let j=2;j<numberOfcols-1;j++){
+        b=b+"<th class=\"thD\"></th>";
+    }
+    b=b+"</tr>";
+
+
+    b=b+"<tr class=\"button\">";
+    b=b+" <td class=\"thD\"><b>Modificar aspecto  <i class=\"fas fa-edit\"></i></b></td>";
+    for(let j=1;j<numberOfcols-1;j++){
+        b=b+"<td class=\"thD\"></td>";
+    }
+    b=b+"</tr>";
+
+    for(let i=2;i<numberOfrows;i++){
+        b=b+"<tr class=\"button\">";
+        for(let j=0;j<numberOfcols-1;j++){
+            b=b+"<td class=\"thD\"></td>";
+        }
+        b=b+"</tr>";
+    }
+
+    document.getElementById("matriz").innerHTML=b;
 
 }
 
