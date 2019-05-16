@@ -16,55 +16,67 @@
         <div class="w3-quarter w3-margin-top">
             <button onclick="document.getElementById('gestionar').style.display='block'"
                     class="w3-card w3-container w3-hover-shadow w3-light-gray" style="max-height:380px;min-height:317px">
-              <h5>Nombre de curso</h5><br>
-          <i class="fas fa-book" style="font-size:100px"></i>
-          <p>Código y sección
-          <p>Semestre y año
-                <div class="w3-btn w3-red" onclick="alert('Dude, estás editando!')">
+                <span style="font-size:22px">Ingeniería de Software</span><br>
+                <i class="fas fa-book" style="font-size:100px"></i><br>
+                <span style="font-size:20px">CC4401-1</span><br>
+                <span style="font-size:18px">Primavera 2019</span>
+                <br>
+                <span class="w3-btn w3-red" onclick="alert('Dude, estás editando!')">
                     <i class="fas fa-edit"></i>
-                </div>
-                <div class="w3-btn w3-red" onclick="alert('Calmao, estás seguro de que vas a borrar esto?')">
+                </span>
+                <!-- Separar los botones un poco?-->
+                <span class="w3-btn w3-red" onclick="alert('Calmao, estás seguro de que vas a borrar esto?')">
                     <i class="fas fa-trash-alt"></i>
-                </div>
+                </span>
             </button>
         </div>
 
         <!--Caja de agregar-->
         <div class="w3-quarter w3-margin-top">
           <button onclick="document.getElementById('agregar').style.display='block'" class="w3-card w3-container w3-light-gray w3-hover-shadow" style="min-height: 317px">
-          <h3 padding="50px">Agregar curso nuevo</h3><br>
-          <i class="fas fa-plus" style="font-size:100px;text-align: center; padding:50px"></i> <!--TODO: Seguir aca-->
+          <span style="font-size:22px">Agregar <br>curso nuevo</span>
+          <i class="fas fa-plus" style="font-size:100px;text-align: center; padding:30px"></i>
           </button>
         </div>
+
         <div id="agregar" class="w3-modal">
         <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
             <div class="w3-center"><br>
                 <span onclick="document.getElementById('agregar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
-                <form class="w3-container" action="/action_page.php">
-            <div class="w3-section">
-              <label><b>Curso</b></label>
-              <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingrese nombre del curso" name="usrname" required>
-              <label><b>Código</b></label>
-              <input class="w3-input w3-border" type="text" placeholder="Ingrese código del curso" name="psw" required>
-                <label><b>Sección</b></label>
-              <input class="w3-input w3-border" type="text" placeholder="Ingrese número de sección" name="secc" required>
-                <label><b>Año</b></label>
-              <input class="w3-input w3-border" type="text" placeholder="Ingrese año" name="year" required>
-                <label><b>Semestre</b></label>
-              <div class="semester"><select id="semester" name="semester">
-                  <option value="priv">Primavera</option>
-                  <option value="oto">Otoño</option>
-              </select>
-              </div>
-              <button class="w3-button w3-block w3-red w3-section w3-padding" type="submit">Agregar</button>
+                <form class="w3-container" action="/action_page.php"> <!-- Agregar PHP -->
+                <div class="w3-section">
+                    <label><b>Curso</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingrese nombre del curso"
+                         id="course_name" name="course_name" required>
+
+                    <label><b>Código</b></label>
+                    <input class="w3-input w3-border" type="text" placeholder="Ingrese código del curso"
+                         id="course_id" name="course_id" required>
+
+                    <label><b>Sección</b></label>
+                    <input class="w3-input w3-border" type="text" placeholder="Ingrese número de sección"
+                         id="course_section" name="course_section" required>
+
+                    <label><b>Año</b></label>
+                    <input class="w3-input w3-border" type="text" placeholder="Ingrese año"
+                         id="course_year" name="course_year" required>
+
+                    <label for="course_semester"><b>Semestre</b></label>
+                    <div class="semester">
+                        <select id="course_semester" name="course_semester">
+                            <option value="priv">Primavera</option>
+                            <option value="oto">Otoño</option>
+                        </select>
+                    </div>
+                    <button class="w3-button w3-block w3-red w3-section w3-padding" type="submit">Agregar</button>
+                </div>
+                </form>
             </div>
-          </form>
-          </div>
-        <!--cierre de cajas de cursos-->
-    </div>
+        <!--Cierre de cajas de cursos-->
         </div>
-    <!--cierre de contenido-->
-</div>
+        </div>
+    </div>
+<!--Cierre de contenido-->
 </div>
 
 <script>
