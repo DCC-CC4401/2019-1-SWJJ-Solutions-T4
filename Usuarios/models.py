@@ -28,6 +28,8 @@ class Rubrica(models.Model):
     nombre: object = models.CharField(max_length=100)
     duracion_minima = models.TimeField(u"Duración Mínima")
     duracion_maxima = models.TimeField(u"Duración Máxima")
+    dataTable = models.FilePathField(path='./RubricasDataTables')
+
 
     def __str__(self):
         return self.nombre
