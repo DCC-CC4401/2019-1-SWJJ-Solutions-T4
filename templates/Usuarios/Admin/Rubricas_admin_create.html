@@ -21,7 +21,7 @@
 
 
 
-        <form class="form-inline">
+        <form>
             <input placeholder="Titulo de la rubrica"><i class="fas fa-edit"></i>
             <div class = "w3-col" align="right">
                 <label>Intervalo de presentación</label>
@@ -32,23 +32,22 @@
 
             <table id="matriz">
                 <tr class="button">
-                    <th class="thD"></th>
-                    <th class="thD">Asignar puntajes    <i class="fas fa-edit"></i></th>
-                    <th class="thD"></th>
-                    <th class="thD"></th>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3">asignar puntaje</textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
                 </tr>
                 <tr class="button">
-                    <td class="thD"><b>Modificar aspecto  <i class="fas fa-edit"></i></b></td>
-                    <td class="thD"></td>
-                    <td class="thD"></td>
-                    <td class="thD"></td>
+                    <td class="thD"><textarea class="form-control" rows="3">Modificar aspecto</textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
                 </tr>
                 <tr class="button">
-                    <td class="thD"></td>
-                    <td class="thD"></td>
-                    <td class="thD"></td>
-                    <td class="thD"></td>
->
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea class="form-control" rows="3"></textarea></td>
                 </tr>
 
 
@@ -83,24 +82,54 @@
 
 <script>
 // Script to open and close sidebar
-const numFilas=3;
 function agregarFila() {
-    let a=document.getElementById("matriz").getElementsByClassName("button").item(1).getElementsByClassName("thD").length;
-    let b="<tr class=\"button\">";
-    for(let i=0;i<a;i++){
-        b=b+"<td class=\"thD\"></td>";
+    let filas=document.getElementById("matriz").getElementsByClassName("button");
+    let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
+    let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
+    let b="";
+    for(let i=0;i<numFilas;i++){
+        let colsi=filas.item(i).getElementsByClassName("thD");
+        b=b+"<tr class=\"button\">";
+        for(let j=0;j<numCols;j++){
+            let textoDelTextArea=colsi.item(j).getElementsByClassName("form-control").item(0).value;
+            b=b+"<td class=\"thD\"><textarea class=\"form-control\" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
+        }
+        b=b+"</tr>";
+    }
+
+    //creo un nuevo button
+    b=b+"<tr class=\"button\">";
+    for(let i=0;i<numCols;i++){
+        b=b+"<td class=\"thD\"><textarea class=\"form-control\" rows=\"3\"></textarea></td>";
     }
     b=b+"</tr>";
+    //lo pongo
 
-    document.getElementById("matriz").innerHTML=document.getElementById("matriz").innerHTML+b;
+    document.getElementById("matriz").innerHTML=b;
 }
 
 function agregarColumna() {
-    let a=document.getElementById("matriz").getElementsByClassName("button");
-    a.item(0).innerHTML=a.item(0).innerHTML+"<th></th>";
-    for(let i=1;i<a.length;i++){
-        a.item(i).innerHTML=a.item(i).innerHTML+"<td class=\"thD\"></td>";
+    let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
+    let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
+    let filas=document.getElementById("matriz").getElementsByClassName("button");
+
+    let b=""
+    //por cada fila, debo agregar una columna nueva
+    for(let i=0;i<numFilas;i++){
+        //agregos las columnas anteriores, preservando sus values
+        let colsi=filas.item(i).getElementsByClassName("thD");
+        b=b+"<tr class=\"button\">";
+        for(let j=0;j<numCols;j++){
+            let textoDelTextArea=colsi.item(j).getElementsByClassName("form-control").item(0).value;
+            b=b+"<td class=\"thD\"><textarea class=\"form-control\" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
+        }
+
+        //agrego la nueva columna
+        b=b+"<td class=\"thD\"><textarea class=\"form-control\" rows=\"3\"></textarea></td>";
+
+        b=b+"</tr>";
     }
+    document.getElementById("matriz").innerHTML=b;
 
 }
 
@@ -121,33 +150,21 @@ function borrarFila() {
 function borrarColumna() {
     let a=document.getElementById("matriz").getElementsByClassName("button");
 
-    let numberOfcols=a.item(1).getElementsByClassName("thD").length;
     let numberOfrows=a.length;
-
-    let b="<tr class=\"button\">";
-    b=b+"<th class=\"thD\"></th>";
-    b=b+" <th class=\"thD\">Asignar puntajes    <i class=\"fas fa-edit\"></i></th>";
-
-    for(let j=2;j<numberOfcols-1;j++){
-        b=b+"<th class=\"thD\"></th>";
-    }
-    b=b+"</tr>";
+    let numberOfcols=a.item(1).getElementsByClassName("thD").length;
 
 
-    b=b+"<tr class=\"button\">";
-    b=b+" <td class=\"thD\"><b>Modificar aspecto  <i class=\"fas fa-edit\"></i></b></td>";
-    for(let j=1;j<numberOfcols-1;j++){
-        b=b+"<td class=\"thD\"></td>";
-    }
-    b=b+"</tr>";
+    let b="";
 
-    for(let i=2;i<numberOfrows;i++){
+    for(let i=0;i<numberOfrows;i++){
+        let columnasFilai=a.item(i).getElementsByClassName("thD");
         b=b+"<tr class=\"button\">";
         for(let j=0;j<numberOfcols-1;j++){
-            b=b+"<td class=\"thD\"></td>";
+            b=b+"<td class=\"thD\">"+columnasFilai.item(j).innerHTML+"</td>";
         }
         b=b+"</tr>";
     }
+
 
     document.getElementById("matriz").innerHTML=b;
 
@@ -193,7 +210,7 @@ td, th {
     border: 1px solid #665f5f;
     text-align: left;
     width: 5%;
-    padding: 2.3%;
+
 }
 tr:nth-child(even) {
     background-color: #FFA07A;
