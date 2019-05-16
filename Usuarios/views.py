@@ -12,6 +12,7 @@ from django.contrib.auth import logout
 from .forms import RegistroUsuarioForm
 from .forms import NuevoCurso
 from .forms import NuevoEvaluador
+from .forms import NuevaRubrica
 ##
 from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje
 
@@ -71,7 +72,7 @@ def evaluadores_admin(request, usuario_id):
 
         if form.is_valid():
 
-            form.save()
+            form.save(request.POST)
 
     #aca
 
@@ -87,9 +88,23 @@ def rubricas_admin(request, usuario_id):
 
 
 def rubricas_admin_create(request, usuario_id):
-    # Esta es
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario})
+    # Esta es
+    if request.POST:
+        form = NuevaRubrica(request.POST, request.FILES)
+
+
+        new_rubrica = form.save(request.POST)
+        print("rubrica guardada con exito")
+
+
+
+    form = NuevaRubrica()
+
+    return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario, 'nueva_rubrica':form})
+
+
+
 
 
 # para el registro

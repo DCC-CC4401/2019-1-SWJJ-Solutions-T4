@@ -4,6 +4,7 @@ from .models import Course
 from .models import Usuario_evaluador
 
 
+
 class RegistroUsuarioForm(forms.Form):
     name = forms.CharField(max_length=200,
                            widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -63,11 +64,13 @@ class NuevoCurso(forms.Form):
 
 class NuevaRubrica(forms.Form):
 
-    def is_valid(self):
-        return super(NuevaRubrica, self).is_valid()
 
-    #def save(self, *args, **kwargs):
-    #    return
+    def save(self,POST):
+
+        print("aca deberia verse")
+        print(POST)
+        print("guardando... ")
+        return False
 
 
 class NuevoEvaluador(forms.Form):
@@ -87,10 +90,13 @@ class NuevoEvaluador(forms.Form):
         return super(NuevoEvaluador, self).is_valid()
 
 
-    def save(self, *args, **kwargs):
+    def save(self,POST):
         nuevoEvaluador = Usuario_evaluador(nombreEvaluador=self.cleaned_data['nombre'], app_paterno=self.cleaned_data['app_paterno'], correo=self.cleaned_data['correo'])
 
         nuevoEvaluador.save()
+
         return nuevoEvaluador
+
+
 
 
