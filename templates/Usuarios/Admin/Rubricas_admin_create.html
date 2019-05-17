@@ -34,12 +34,15 @@
             <table id="matriz">
                 <tr class="button">
                     <td class="thD"><textarea name="f0c0" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f0c1" class="form-control" rows="3">asignar puntaje</textarea></td>
+                    <td class="thD"><textarea name="f0c1" class="form-control" rows="3"></textarea></td>
+                    <!--<td class="thD"><textarea name="f0c1" class="form-control" rows="3">asignar puntaje</textarea></td>-->
                     <td class="thD"><textarea name="f0c2" class="form-control" rows="3"></textarea></td>
                     <td class="thD"><textarea name="f0c3" class="form-control" rows="3"></textarea></td>
+
                 </tr>
                 <tr class="button">
-                    <td class="thD"><textarea name="f1c0" class="form-control" rows="3">Modificar aspecto</textarea></td>
+                    <!--<td class="thD"><textarea name="f1c0" class="form-control" rows="3">Modificar aspecto</textarea></td>-->
+                    <td class="thD"><textarea name="f1c0" class="form-control" rows="3"></textarea></td>
                     <td class="thD"><textarea name="f1c1" class="form-control" rows="3"></textarea></td>
                     <td class="thD"><textarea name="f1c2" class="form-control" rows="3"></textarea></td>
                     <td class="thD"><textarea name="f1c3" class="form-control" rows="3"></textarea></td>
@@ -122,7 +125,7 @@ function agregarColumna() {
     let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
     let filas=document.getElementById("matriz").getElementsByClassName("button");
 
-    let b=""
+    let b="";
     //por cada fila, debo agregar una columna nueva
     for(let i=0;i<numFilas;i++){
         //agregos las columnas anteriores, preservando sus values
@@ -130,11 +133,14 @@ function agregarColumna() {
         b=b+"<tr class=\"button\">";
         for(let j=0;j<numCols;j++){
             let textoDelTextArea=colsi.item(j).getElementsByClassName("form-control").item(0).value;
-            b=b+"<td class=\"thD\"><textarea class=\"form-control\" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
+            let textName="f"+i+"c"+j;
+            b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
         }
 
         //agrego la nueva columna
-        b=b+"<td class=\"thD\"><textarea class=\"form-control\" rows=\"3\"></textarea></td>";
+
+        let textName="f"+i+"c"+numCols;
+        b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+ " rows=\"3\"></textarea></td>";
 
         b=b+"</tr>";
     }
@@ -144,39 +150,43 @@ function agregarColumna() {
 
 function borrarFila() {
 
-    let a=document.getElementById("matriz").getElementsByClassName("button");
-
-     let b="";
-    for(let i=0;i<a.length-1;i++){
+    let filas=document.getElementById("matriz").getElementsByClassName("button");
+    let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
+    let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
+    let b="";
+    for(let i=0;i<numFilas-1;i++){
+        let colsi=filas.item(i).getElementsByClassName("thD");
         b=b+"<tr class=\"button\">";
-        b=b+a.item(i).innerHTML;
+        for(let j=0;j<numCols;j++){
+            let textoDelTextArea=colsi.item(j).getElementsByClassName("form-control").item(0).value;
+            let textName="f"+i+"c"+j;
+            b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
+        }
         b=b+"</tr>";
     }
-
     document.getElementById("matriz").innerHTML=b;
 }
 
 function borrarColumna() {
-    let a=document.getElementById("matriz").getElementsByClassName("button");
-
-    let numberOfrows=a.length;
-    let numberOfcols=a.item(1).getElementsByClassName("thD").length;
-
+    let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
+    let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
+    let filas=document.getElementById("matriz").getElementsByClassName("button");
 
     let b="";
-
-    for(let i=0;i<numberOfrows;i++){
-        let columnasFilai=a.item(i).getElementsByClassName("thD");
+    //por cada fila, debo agregar una columna nueva
+    for(let i=0;i<numFilas;i++){
+        //agregos las columnas anteriores, preservando sus values
+        let colsi=filas.item(i).getElementsByClassName("thD");
         b=b+"<tr class=\"button\">";
-        for(let j=0;j<numberOfcols-1;j++){
-            b=b+"<td class=\"thD\">"+columnasFilai.item(j).innerHTML+"</td>";
+        for(let j=0;j<numCols-1;j++){
+            let textoDelTextArea=colsi.item(j).getElementsByClassName("form-control").item(0).value;
+            let textName="f"+i+"c"+j;
+            b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
         }
+
         b=b+"</tr>";
     }
-
-
     document.getElementById("matriz").innerHTML=b;
-
 }
 
 </script>
