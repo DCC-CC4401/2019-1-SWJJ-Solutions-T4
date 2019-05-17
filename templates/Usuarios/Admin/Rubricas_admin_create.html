@@ -23,14 +23,15 @@
 
         <form method="post" id="nueva_rubrica" enctype="multipart/form-data">
             {% csrf_token %}
-            <input placeholder="Titulo de la rubrica"><i class="fas fa-edit"></i>
+            <input placeholder="Titulo de la rubrica" name="tituloRubrica"><i class="fas fa-edit"></i>
             <div class = "w3-col" align="right">
                 <label>Intervalo de presentación</label>
                 <input placeholder="Ej: 7-10" name="intervalo">
             </div>
 
 
-
+            <input name="numFilas" id="idNumFilas" hidden value=3>
+            <input name="numColumnas" id="idNumCols" hidden value=4>
             <table id="matriz">
                 <tr class="button">
                     <td class="thD"><textarea name="f0c0" class="form-control" rows="3"></textarea></td>
@@ -116,7 +117,8 @@ function agregarFila() {
         }
     b=b+"</tr>";
     //lo pongo
-
+    document.getElementById("idNumFilas").value=numFilas+1;
+    document.getElementById("idNumCols").value=numCols;
     document.getElementById("matriz").innerHTML=b;
 }
 
@@ -144,6 +146,8 @@ function agregarColumna() {
 
         b=b+"</tr>";
     }
+    document.getElementById("idNumFilas").value=numFilas;
+    document.getElementById("idNumCols").value=numCols+1;
     document.getElementById("matriz").innerHTML=b;
 
 }
@@ -164,7 +168,11 @@ function borrarFila() {
         }
         b=b+"</tr>";
     }
+    document.getElementById("idNumFilas").value=numFilas-1;
+    document.getElementById("idNumCols").value=numCols;
     document.getElementById("matriz").innerHTML=b;
+
+
 }
 
 function borrarColumna() {
@@ -186,6 +194,8 @@ function borrarColumna() {
 
         b=b+"</tr>";
     }
+    document.getElementById("idNumFilas").value=numFilas;
+    document.getElementById("idNumCols").value=numCols-1;
     document.getElementById("matriz").innerHTML=b;
 }
 
