@@ -16,7 +16,9 @@ from .forms import NuevaRubrica
 ##
 from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje
 
-
+##para el json
+import json
+##
 def login(request):
     if request.POST:
         username = request.POST.get('usuario')
@@ -120,3 +122,13 @@ def registro(request):
     form = RegistroUsuarioForm()
 
     return render(request, 'Usuarios/registro/Registro.html', {'register_form': form})
+
+def rubricas_admin_ver(request,usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+
+    with open('rubricaJson.json') as f:
+        data = json.load(f)
+
+
+    return render(request, 'Usuarios/Admin/Rubricas_admin_ver.html', {'usuario': usuario,'rubrica':data,'rangei':range(int(data.get("numFilas"))),'rangej':range(int(data.get("numColumnas")))})
+

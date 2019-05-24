@@ -3,7 +3,7 @@ from .models import Usuario_admin
 from .models import Course
 from .models import Usuario_evaluador
 
-
+import json
 
 class RegistroUsuarioForm(forms.Form):
     name = forms.CharField(max_length=200,
@@ -61,15 +61,28 @@ class NuevoCurso(forms.Form):
         course.save()
         return course
 
+def generateJsonFromPost(post):
+    print(post);
+    rubrica=post
 
+
+    return rubrica
 class NuevaRubrica(forms.Form):
 
 
     def save(self,POST):
+        ##aqui va json
 
-        print("aca deberia verse")
-        print(POST)
-        print("guardando... ")
+        rubrica=generateJsonFromPost(POST)
+        with open('rubricaJson.json', 'w') as json_file:
+            json.dump(rubrica, json_file)
+
+
+        ##aqui va json
+
+        #print(POST)
+        print("guardado")
+
         return False
 
 
