@@ -129,6 +129,23 @@ def rubricas_admin_ver(request,usuario_id):
     with open('rubricaJson.json') as f:
         data = json.load(f)
 
+    matriz=parseJsonToMatriz(data,int(data.get("numFilas")),int(data.get("numColumnas")))
 
-    return render(request, 'Usuarios/Admin/Rubricas_admin_ver.html', {'usuario': usuario,'rubrica':data,'rangei':range(int(data.get("numFilas"))),'rangej':range(int(data.get("numColumnas")))})
+
+    return render(request, 'Usuarios/Admin/Rubricas_admin_ver.html', {'usuario': usuario,'rubrica':data,'rangei':range(int(data.get("numFilas"))),'rangej':range(int(data.get("numColumnas"))),'matriz':matriz})
+
+def parseJsonToMatriz(data,numFilas,numColumnas):
+    filas=[]
+    for i in range(numFilas):
+        columnas=[]
+        for j in range(numColumnas):
+            s="f"+str(i)+"c"+str(j)
+            columnas.append(data.get(s))
+
+        filas.append(columnas)
+
+
+    return filas
+
+
 
