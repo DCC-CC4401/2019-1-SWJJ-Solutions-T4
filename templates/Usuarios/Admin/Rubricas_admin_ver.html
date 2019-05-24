@@ -30,11 +30,11 @@
             </div>
 
             <table id="matriz">
-                {% for i in rangei %}
+                {% for i in matriz %}
                 <tr class="button">
-                    {% for j in rangej %}
+                    {% for j in i %}
 
-                    <td class="thD"><textarea name="f0c0" class="form-control" rows="3"></textarea></td>
+                    <td class="thD"><textarea name="f0c0" class="form-control" rows="3">{{j}}</textarea></td>
                     {% endfor %}
 
                 </tr>
