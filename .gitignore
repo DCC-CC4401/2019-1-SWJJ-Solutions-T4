@@ -165,4 +165,6 @@ db.sqlite3
 
 # Avoid uploading Json files (specially, rubricas)
 *.json
+# And the just tracked file...
+rubricaJson.json
 
