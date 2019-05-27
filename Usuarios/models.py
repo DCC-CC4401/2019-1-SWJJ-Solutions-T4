@@ -23,6 +23,20 @@ class Course(models.Model):
     def __str__(self):
         return self.nombreCurso
 
+class Grupo(models.Model):
+    nombreGrupo = models.CharField(max_length=200)
+    cursoGrupo = models.ForeignKey(Course,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombreGrupo
+
+class Alumno(models.Model):
+    nombreAlumno = models.CharField(max_length=200)
+    grupoAsociado = models.ForeignKey(Grupo,on_delete=models.DO_NOTHING) # Es buena idea doNothing?
+    cursoAsociado = models.ForeignKey(Course,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombreAlumno
 
 class Rubrica(models.Model):
     nombre: object = models.CharField(max_length=100)
