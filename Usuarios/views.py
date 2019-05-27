@@ -86,7 +86,16 @@ def evaluadores_admin(request, usuario_id):
 
 def rubricas_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario})
+    with open('rubricaJson.json', 'r') as f:
+        data = json.load(f)
+
+    rubricsNames = []
+    for key in data[str(usuario_id)]:
+        rubricsNames.append(key)
+    print(rubricsNames)
+
+
+    return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario,'rubricsNames':rubricsNames})
 
 
 def rubricas_admin_create(request, usuario_id):
@@ -123,12 +132,12 @@ def registro(request):
 
     return render(request, 'Usuarios/registro/Registro.html', {'register_form': form})
 
-def rubricas_admin_ver(request,usuario_id):
+def rubricas_admin_ver(request,usuario_id,rubricaName):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
 
     with open('rubricaJson.json') as f:
         data = json.load(f)
-
+    data=data[str(usuario_id)][rubricaName]
     matriz=parseJsonToMatriz(data,int(data.get("numFilas")),int(data.get("numColumnas")))
 
 
