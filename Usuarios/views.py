@@ -96,7 +96,7 @@ def rubricas_admin_create(request, usuario_id):
         form = NuevaRubrica(request.POST, request.FILES)
 
 
-        new_rubrica = form.save(request.POST)
+        new_rubrica = form.save(request.POST,usuario_id)
         print("rubrica guardada con exito")
 
 
