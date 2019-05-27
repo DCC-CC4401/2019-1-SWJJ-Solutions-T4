@@ -69,9 +69,12 @@ def generateJsonFromPost(post):
     return rubrica
 
 def jsonisacion(data,rubrica,idUsuario):
-    a=data
+    if data:
+        a=data
 
-    a[str(idUsuario)][rubrica.get("tituloRubrica")]=rubrica
+        a[str(idUsuario)][rubrica.get("tituloRubrica")]=rubrica
+    else:
+        a={str(idUsuario):{rubrica.get("tituloRubrica"): rubrica}}
     return a
 class NuevaRubrica(forms.Form):
 

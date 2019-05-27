@@ -90,9 +90,11 @@ def rubricas_admin(request, usuario_id):
         data = json.load(f)
 
     rubricsNames = []
-    for key in data[str(usuario_id)]:
-        rubricsNames.append(key)
+    if data:
+        for key in data[str(usuario_id)]:
+            rubricsNames.append(key)
     print(rubricsNames)
+
 
 
     return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario,'rubricsNames':rubricsNames})
