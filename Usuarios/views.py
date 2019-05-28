@@ -9,10 +9,10 @@ from django.contrib.auth import logout
 ##
 
 # formularios
-from .forms import RegistroUsuarioForm
+from .forms import RegistroUsuarioForm, RegistroEvaluadorForm
 from .forms import NuevoCurso
 ##
-from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje
+from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje, Usuario_evaluador
 import csv
 
 
@@ -66,10 +66,25 @@ def evaluaciones_admin_ver(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario})
 
+def evaluadoresReq(request):
+    listaEvaluadores = Usuario_evaluador.objects.all()
+    return listaEvaluadores
+
 
 def evaluadores_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario})
+
+    if request.POST:
+        form = RegistroEvaluadorForm(request.POST, request.FILES)
+        if form.is_valid():  # si no no crea los cleaned data
+            form.save(usuario_id) # por el override, ver forms
+
+    listaEvaluadores = evaluadoresReq(request)
+    form = RegistroEvaluadorForm()
+
+    # le paso el form, nuevo_curso a la página.
+    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_eval' : form,
+                                                                     'listaEval' : listaEvaluadores})
 
 
 # Commit 15.05

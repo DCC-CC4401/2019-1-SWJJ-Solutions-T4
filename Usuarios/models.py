@@ -12,6 +12,14 @@ class Usuario_admin(models.Model):
     isAdmin = models.BooleanField(default=True)
     password = models.CharField(max_length=50)
 
+class Usuario_evaluador(models.Model):
+    name = models.CharField(max_length=200)
+    app_paterno = models.CharField(max_length=50, blank=True, null=True)
+    app_materno = models.CharField(max_length=50, blank=True, null=True)
+    correo = models.EmailField(max_length=100)
+    isAdmin = models.BooleanField(default=False)
+    password = models.CharField(max_length=50) # TODO : Remember to randomize
+    myAdminID = models.ForeignKey(Usuario_admin,on_delete=models.CASCADE)
 
 class Course(models.Model):
     nombreCurso = models.CharField(max_length=250, help_text='Nombre del curso ')
@@ -32,7 +40,7 @@ class Grupo(models.Model):
 
 class Alumno(models.Model):
     nombreAlumno = models.CharField(max_length=200)
-    grupoAsociado = models.ForeignKey(Grupo,on_delete=models.DO_NOTHING) # Es buena idea doNothing?
+    grupoAsociado = models.ForeignKey(Grupo,on_delete=models.DO_NOTHING) # TODO: Es buena idea doNothing?
     cursoAsociado = models.ForeignKey(Course,on_delete=models.CASCADE)
 
     def __str__(self):
