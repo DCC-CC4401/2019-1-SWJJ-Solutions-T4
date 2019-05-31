@@ -69,6 +69,9 @@ class Evaluacion(models.Model):
     equipo = models.ForeignKey(Grupo,on_delete=models.CASCADE) # TODO : Deberia ser do nothing
     rubrica = models.ForeignKey(Rubrica,on_delete=models.CASCADE)
 
+class EvaluacionAsignada(models.Model):
+    evaluador = models.ManyToManyField(Usuario_evaluador)
+
 
 class Criterio(models.Model):
     rubrica = models.ForeignKey(Rubrica, on_delete=models.CASCADE)

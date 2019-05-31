@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario_admin, Usuario_evaluador
+from .models import Usuario_admin, Usuario_evaluador, Grupo, Rubrica, Evaluacion
 from .models import Course
 
 
@@ -91,7 +91,22 @@ class RegistroEvaluadorForm(forms.Form):
         evaluador.save()
         return evaluador
 
+class NuevaEvaluacion(forms.Form):
+    name = forms.CharField(max_length=200,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           required=True)
+    curso = forms.ModelChoiceField(queryset=Course.objects.all())
+    equipo = forms.ModelChoiceField(queryset=Grupo.objects.all())
+    rubrica = forms.ModelChoiceField(queryset=Rubrica.objects.all())
 
+    def is_valid(self):
+        return super(NuevaEvaluacion, self).is_valid()
+
+    def save(self, usuario_id,  *args, **kwargs):
+        evaluacion = Evaluacion(name=self.cleaned_data['name'], curso=self.cleaned_data['curso'],
+                              equipo=self.cleaned_data['equipo'], rubrica=self.cleaned_data['rubrica'])
+        evaluacion.save()
+        return evaluacion
 
 #class NuevaRubrica(forms.Form):
 

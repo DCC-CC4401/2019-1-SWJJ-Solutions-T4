@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib import admin
 
-from .models import Usuario_admin, Alumno, Grupo, Usuario_evaluador, Evaluacion
+from .models import Usuario_admin, Alumno, Grupo, Usuario_evaluador, Evaluacion, EvaluacionAsignada
 from .models import Course
 from .models import Rubrica
 from .models import Criterio
@@ -18,3 +18,4 @@ admin.site.register(Alumno)
 admin.site.register(Grupo)
 admin.site.register(Usuario_evaluador)
 admin.site.register(Evaluacion)
+admin.site.register(EvaluacionAsignada)

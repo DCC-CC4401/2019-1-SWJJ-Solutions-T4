@@ -131,7 +131,6 @@ def rubricas_admin_create(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario})
 
-
 # para el registro
 def registro(request):
     if request.POST:
