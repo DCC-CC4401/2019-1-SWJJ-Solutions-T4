@@ -63,6 +63,12 @@ class Rubrica(models.Model):
         """
         return Criterio.objects.filter(rubrica__nombre=self.nombre)
 
+class Evaluacion(models.Model):
+    nombre: object = models.CharField(max_length=100)
+    curso = models.ForeignKey(Course,on_delete=models.CASCADE)
+    equipo = models.ForeignKey(Grupo,on_delete=models.CASCADE) # TODO : Deberia ser do nothing
+    rubrica = models.ForeignKey(Rubrica,on_delete=models.CASCADE)
+
 
 class Criterio(models.Model):
     rubrica = models.ForeignKey(Rubrica, on_delete=models.CASCADE)

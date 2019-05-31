@@ -21,10 +21,15 @@ def login(request):
         username = request.POST.get('usuario')
         password = request.POST.get('password')
 
-        user = Usuario_admin.objects.get(name=username, password=password)
-
-        if user is not None:
+        # Verificar si es admin
+        if (Usuario_admin.objects.filter(name=username, password=password).exists()):
+            user = Usuario_admin.objects.get(name=username, password=password)
             return HttpResponseRedirect(reverse('usuarios:landing_admin', kwargs={'usuario_id': user.id}))
+
+        if (Usuario_evaluador.objects.filter(correo=username, password=password).exists()):
+            user = Usuario_evaluador.objects.get(correo=username, password=password)
+            return HttpResponseRedirect(reverse('usuarios:evaluaciones_admin', kwargs={'usuario_id': user.id}))
+
 
     return render(request, 'Usuarios/login.html')
 
