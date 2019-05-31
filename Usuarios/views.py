@@ -71,6 +71,12 @@ def evaluaciones_admin_ver(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario})
 
+
+def evaluaciones_admin_create(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario})
+
+
 def evaluadoresReq(request):
     listaEvaluadores = Usuario_evaluador.objects.all()
     return listaEvaluadores
