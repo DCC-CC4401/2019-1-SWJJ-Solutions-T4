@@ -21,6 +21,9 @@ class Usuario_evaluador(models.Model):
     password = models.CharField(max_length=50) # TODO : Remember to randomize
     myAdminID = models.ForeignKey(Usuario_admin,on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('correo',)
+
     def __str__(self):
         return self.name
 
