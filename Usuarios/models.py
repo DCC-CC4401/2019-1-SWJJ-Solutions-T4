@@ -21,12 +21,18 @@ class Usuario_evaluador(models.Model):
     password = models.CharField(max_length=50) # TODO : Remember to randomize
     myAdminID = models.ForeignKey(Usuario_admin,on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 class Course(models.Model):
     nombreCurso = models.CharField(max_length=250, help_text='Nombre del curso ')
     codigoCurso = models.CharField(max_length=8, help_text='Codigo curso ')
     numSeccionCurso = models.IntegerField(help_text='Numero seccion del curso')
     anioCurso = models.IntegerField(help_text='Año del curso ')
     semesterCurso = models.IntegerField(help_text='Semestre ')
+
+    class Meta:
+        unique_together = ('codigoCurso', 'numSeccionCurso', 'anioCurso' ,'semesterCurso',)
 
     def __str__(self):
         return self.nombreCurso
@@ -40,6 +46,7 @@ class Grupo(models.Model):
 
 class Alumno(models.Model):
     nombreAlumno = models.CharField(max_length=200)
+    hasPresented = models.BooleanField(default=False) # Agregado
     grupoAsociado = models.ForeignKey(Grupo,on_delete=models.DO_NOTHING) # TODO: Es buena idea doNothing?
     cursoAsociado = models.ForeignKey(Course,on_delete=models.CASCADE)
 
@@ -68,6 +75,7 @@ class Evaluacion(models.Model):
     curso = models.ForeignKey(Course,on_delete=models.CASCADE)
     equipo = models.ForeignKey(Grupo,on_delete=models.CASCADE) # TODO : Deberia ser do nothing
     rubrica = models.ForeignKey(Rubrica,on_delete=models.CASCADE)
+    # evaluadores = models.ManyToManyField(Usuario_evaluador, null=True) # NOT NULL constraint failed
 
     def __str__(self):
         return self.nombre

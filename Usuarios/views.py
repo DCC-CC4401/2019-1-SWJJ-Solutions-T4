@@ -77,6 +77,7 @@ def evaluaciones_admin_create(request, usuario_id): # TODO: Complete
     if request.POST:
         form = NuevaEvaluacion(request.POST,request.FILES)
         if form.is_valid():
+            # listaDeEvaluadores = form.cleaned_data.get('evaluadores')
             form.save()
     form = NuevaEvaluacion()
     return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario, 'nueva_eval' : form})

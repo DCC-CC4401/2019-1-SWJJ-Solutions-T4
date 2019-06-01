@@ -98,13 +98,15 @@ class NuevaEvaluacion(forms.Form):
     curso = forms.ModelChoiceField(queryset=Course.objects.all()) # De aquí es posible generar distintos forms
     equipo = forms.ModelChoiceField(queryset=Grupo.objects.all())
     rubrica = forms.ModelChoiceField(queryset=Rubrica.objects.all())
+    # evaluadores = forms.ModelMultipleChoiceField(queryset=Usuario_evaluador.objects.all())
 
     def is_valid(self):
         return super(NuevaEvaluacion, self).is_valid()
 
     def save(self,  *args, **kwargs):
         evaluacion = Evaluacion(nombre=self.cleaned_data['nombre'], curso=self.cleaned_data['curso'],
-                              equipo=self.cleaned_data['equipo'], rubrica=self.cleaned_data['rubrica'])
+                              equipo=self.cleaned_data['equipo'], rubrica=self.cleaned_data['rubrica']
+                                )
         evaluacion.save()
         return evaluacion
 
