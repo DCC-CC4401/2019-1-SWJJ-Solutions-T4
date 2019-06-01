@@ -65,6 +65,36 @@
     </div>
   </div>
 
+<h3>Form</h3>
+<div class="w3-center"><br>
+                    <span onclick="document.getElementById('agregar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+                    <!-- id="nuevo_curso", nuevo curso es una variable del post, que recibio esta pagina
+                     y en nuevo_curso, viene el form-->
+                    <form method="post" id="nueva_eval" enctype="multipart/form-data">
+
+                        <!--token, sirve cuando uno deja viva la sesion -->
+                        {% csrf_token %}
+                        <!-- en table se muestra el form-->
+                        <table class="table table-bordered">
+                            <!--
+                            {% for field in nueva_eval.hidden_fields %}
+                              {{ field }}
+                            {% endfor %}
+                            -->
+
+                            <!-- por cada campo del form, lo pongo en el html -->
+                            {% for field in nueva_eval.visible_fields %}
+                            <tr>
+                                <td>{{ field.label_tag }}</td>
+                                <td>{{ field }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        <!-- Boton de agregar del formulario-->
+                        <button type="submit" class="btn btn-success" style="width: 100%; height: 60px; font-size: 31px; font-weight: bolder">Agregar</button>
+                    </form>
+                </div>
+
 </div>
 
 

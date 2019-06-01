@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 ##
 
 # formularios
-from .forms import RegistroUsuarioForm, RegistroEvaluadorForm
+from .forms import RegistroUsuarioForm, RegistroEvaluadorForm, NuevaEvaluacion
 from .forms import NuevoCurso
 ##
 from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje, Usuario_evaluador
@@ -74,7 +74,12 @@ def evaluaciones_admin_ver(request, usuario_id):
 
 def evaluaciones_admin_create(request, usuario_id): # TODO: Complete
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario})
+    if request.POST:
+        form = NuevaEvaluacion(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+    form = NuevaEvaluacion()
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario, 'nueva_eval' : form})
 
 
 def evaluadoresReq(request):

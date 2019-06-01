@@ -69,6 +69,9 @@ class Evaluacion(models.Model):
     equipo = models.ForeignKey(Grupo,on_delete=models.CASCADE) # TODO : Deberia ser do nothing
     rubrica = models.ForeignKey(Rubrica,on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nombre
+
 class EvaluacionAsignada(models.Model):
     evaluador = models.ManyToManyField(Usuario_evaluador)
 

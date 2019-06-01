@@ -92,18 +92,18 @@ class RegistroEvaluadorForm(forms.Form):
         return evaluador
 
 class NuevaEvaluacion(forms.Form):
-    name = forms.CharField(max_length=200,
+    nombre = forms.CharField(max_length=200,
                            widget=forms.TextInput(attrs={'class': 'form-control'}),
                            required=True)
-    curso = forms.ModelChoiceField(queryset=Course.objects.all())
+    curso = forms.ModelChoiceField(queryset=Course.objects.all()) # De aquí es posible generar distintos forms
     equipo = forms.ModelChoiceField(queryset=Grupo.objects.all())
     rubrica = forms.ModelChoiceField(queryset=Rubrica.objects.all())
 
     def is_valid(self):
         return super(NuevaEvaluacion, self).is_valid()
 
-    def save(self, usuario_id,  *args, **kwargs):
-        evaluacion = Evaluacion(name=self.cleaned_data['name'], curso=self.cleaned_data['curso'],
+    def save(self,  *args, **kwargs):
+        evaluacion = Evaluacion(nombre=self.cleaned_data['nombre'], curso=self.cleaned_data['curso'],
                               equipo=self.cleaned_data['equipo'], rubrica=self.cleaned_data['rubrica'])
         evaluacion.save()
         return evaluacion
