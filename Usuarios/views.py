@@ -121,7 +121,7 @@ def evaluadores_admin(request, usuario_id):
     form = RegistroEvaluadorForm()
 
     # le paso el form, nuevo_curso a la página.
-    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_eval': form,
+    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_evaluador': form,
                                                                      'listaEval': listaEvaluadores})
 
 
