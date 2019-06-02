@@ -12,6 +12,7 @@
       </div>
 
     <!--Cajas cursos-->
+    <!--
     <div class="w3-row-padding w3-center w3-margin-top">
         <div class="w3-quarter w3-margin-top">
             <button onclick="document.getElementById('gestionar').style.display='block'"
@@ -25,14 +26,48 @@
                     <i class="fas fa-edit"></i>
                 </span>
                 <!-- Separar los botones un poco?-->
+                <!--
                 <span class="w3-btn w3-red" onclick="alert('Calmao, estás seguro de que vas a borrar esto?')">
                     <i class="fas fa-trash-alt"></i>
                 </span>
             </button>
+        </div>-->
+
+<!-- Si la lista de cursos no es vacía, se itera-->
+    {% if listaCursos %}
+    {%  for curso in listaCursos %}
+      <!--Caja Ejemplo -->
+        <!-- El orden y margen esta dado por la class-->
+        <div class="w3-quarter w3-margin-top w3-center w3-margin">
+            <button {% comment %}onclick="document.getElementById('gestionar').style.display='block'" {% endcomment %}class="w3-card w3-container w3-hover-shadow w3-light-gray" style="min-height:317px">
+
+                <h3>Nombre de curso</h3>
+                    {{ curso.nombreCurso }}<br>
+                <i class="fas fa-book" style="font-size:100px"></i>
+                <p>Código</p>
+                    {{ curso.codigoCurso }}
+                <p>Sección</p>
+                    {{ curso.numSeccionCurso }}
+                <p>Semestre y año </p>
+                    {{ curso.semesterCurso }} - {{ curso.anioCurso }}
+                <!-- Patron para llamar de algo de django (back end) es con dos curly braces -->
+            </button>
+            <!-- Es un button por iteracion anterior no tiene funcionamiento-->
+            <div id="botonera" class="w3-margin-top w3-center">
+                <button class="w3-btn w3-red ">Modificar</button>
+                <button class="w3-btn w3-red">Eliminar</button>
+            </div>
         </div>
 
-        <!--Caja de agregar-->
-        <div class="w3-quarter w3-margin-top">
+    {%  endfor %}
+         <!-- Caso contrario se indica que no hay cursos-->
+    {% else %}
+        <p>No courses</p>
+    {% endif %}
+
+
+    <!--Caja de agregar-->
+        <div class="w3-quarter w3-margin-top w3-center">
           <button onclick="document.getElementById('agregar').style.display='block'" class="w3-card w3-container w3-light-gray w3-hover-shadow" style="min-height: 317px">
           <span style="font-size:22px">Agregar <br>curso nuevo</span>
           <i class="fas fa-plus" style="font-size:100px;text-align: center; padding:30px"></i>
@@ -40,10 +75,12 @@
         </div>
 
         <div id="agregar" class="w3-modal">
+
+        <!--
         <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
             <div class="w3-center"><br>
                 <span onclick="document.getElementById('agregar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
-                <form class="w3-container" action="/action_page.php"> <!-- Agregar PHP -->
+                <form class="w3-container" action="/action_page.php">
                 <div class="w3-section">
                     <label><b>Curso</b></label>
                     <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingrese nombre del curso"
@@ -73,11 +110,46 @@
                 </form>
             </div>
         <!--Cierre de cajas de cursos-->
+        <!--</div>
+    <!--cierre de contenido-->
+<!--</div>
+</div>-->
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+                <div class="w3-center"><br>
+                    <span onclick="document.getElementById('agregar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+                    <!-- id="nuevo_curso", nuevo curso es una variable del post, que recibio esta pagina
+                     y en nuevo_curso, viene el form-->
+                    <form method="post" id="nuevo_curso" enctype="multipart/form-data">
+
+                        <!--token, sirve cuando uno deja viva la sesion -->
+                        {% csrf_token %}
+                        <!-- en table se muestra el form-->
+                        <table class="table table-bordered">
+                            <!--
+                            {% for field in nuevo_curso.hidden_fields %}
+                              {{ field }}
+                            {% endfor %}
+                            -->
+
+                            <!-- por cada campo del form, lo pongo en el html -->
+                            {% for field in nuevo_curso.visible_fields %}
+                            <tr>
+                                <td>{{ field.label_tag }}</td>
+                                <td>{{ field }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        <!-- Boton de agregar del formulario-->
+                        <button type="submit" class="btn btn-success" style="width: 100%; height: 60px; font-size: 31px; font-weight: bolder">Agregar</button>
+                    </form>
+                </div>
+                <!--cierre de cajas de cursos-->
+            </div>
         </div>
-        </div>
-    </div>
-<!--Cierre de contenido-->
+    <!--cierre de contenido-->
 </div>
+
+
 
 <script>
 // Script to open and close sidebar

@@ -82,8 +82,11 @@ From now on, you just need the following command to start this project's local s
  
  3) si un usuario se logea y se equivoca, sale un error bastante feo (se debe revisar login)
  
- ### Cursos
+###Gestor de evaluadores 
+ 1)cambiar monito de evaluadores
+ 
+
+### Cursos
  (Sofía)
  
  1) Reordenar para que "Agregar Curso" quede primero (sino se va al fondo).
- 2) 

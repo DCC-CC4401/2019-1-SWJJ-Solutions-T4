@@ -10,37 +10,27 @@
   </div>
 
 <div class="w3-container">
-  <button class="w3-button w3-large w3-red w3-right w3-round">Agregar nueva rúbrica</button><br>
+  <a class="w3-button w3-large w3-red w3-right w3-round" href="{% url 'usuarios:rubricas_admin_create' usuario.id%}" >Agregar nueva rúbrica</a><br>
 </div>
+
 <!--Seccion rubricas-->
+  {%for i in rubricsNames%}
+  <button onclick="myFunction()" class="w3-btn w3-red w3-block w3-margin" style="width: 75%"><h3>
+    {{i}}</h3></button>
 
-<button onclick="myFunction('Demo3')" class="w3-btn w3-red w3-block w3-margin" style="width: 75%"><h3>
-    Rúbrica 1</h3></button>
-
-<div id="Demo3" class="w3-hide w3-container w3-pale-red w3-center w3-padding-large w3-margin"style="width: 75%">
+  <div id={{i}} class="show w3-container w3-pale-red w3-center w3-padding-large w3-margin"style="width: 75%">
   <p><li>Aspecto 1</li>
     <li>Aspecto 2</li>
 </p>
     <div class="w3-container">
-      <button class="w3-button w3-large w3-margin-right w3-red w3-left w3-round">Ver</button>
+      <a class="w3-button w3-large w3-margin-right w3-red w3-left w3-round" href="{% url 'usuarios:rubricas_admin_ver' usuario.id i%}">Ver</a>
   <button class="w3-button w3-large w3-red w3-left w3-round">Modificar</button>
   <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
 </div>
 </div>
 
-<button onclick="myFunction('Demo4')" class="w3-btn w3-red w3-block w3-margin" style="width: 75%"><h3>
-    Rúbrica 2</h3></button>
 
-<div id="Demo4" class="w3-hide w3-container w3-pale-red w3-center w3-padding-large w3-margin"style="width: 75%">
-  <p><li>Aspecto 1</li>
-    <li>Aspecto 2</li>
-</p>
-    <div class="w3-container">
-      <button class="w3-button w3-large w3-margin-right w3-red w3-left w3-round">Ver</button>
-  <button class="w3-button w3-large w3-red w3-left w3-round">Modificar</button>
-  <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
-</div>
-</div>
+  {%endfor%}
 
 
 

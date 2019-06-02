@@ -57,11 +57,11 @@
             <form action="{% url 'usuarios:login' %}" method="post" id="login_form">
               {% csrf_token %}
               <div class="form-group has-feedback">
-                  <input name="usuario" class="form-control" placeholder="Nombre de usuario" type="text">
+                  <input name="usuario" class="form-control" placeholder="Nombre de usuario" type="text" required>
                   <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
               </div>
               <div class="form-group has-feedback">
-                  <input name="password" class="form-control" placeholder="Contraseña" type="password">
+                  <input name="password" class="form-control" placeholder="Contraseña" type="password" required>
                   <span class="glyphicon glyphicon-lock form-control-feedback"></span>
               </div>
             </form>
