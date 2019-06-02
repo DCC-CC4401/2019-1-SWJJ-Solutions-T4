@@ -99,21 +99,29 @@ li{
         </div>
       </div>
 
-    <p>Seleccione el nivel de logro alcanzado por el grupo en cada ámbito</p> </div>
-    
+
+        <!-- Seccion de las rubricas -->
+    <p>Seleccione el nivel de logro alcanzado por el grupo en cada ámbito</p>
+  </div>
+
     <div class="w3-panel  w3-margin-bottom">
-      <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-        <li class="w3-red w3-xlarge w3-padding-32">Contenidos <i class="far fa-check-circle"></i></li>
-        <li class="opcion w3-padding-16"> No incluye las interfaces
-            solicitadas
-          </li>
-        <li class="opcion w3-padding-16 selected"> Faltan la mayoria de las
-            interfaces
-           </li>
-        <li class="opcion w3-padding-16"> Solo faltan 1 o 2 interfaces </li>
-        <li class="opcion w3-padding-16"> Incluye todas las interfaces
-            solicitadas
-           </li>
+      <ul id="contenidos" class="w3-ul w3-light-grey w3-center w3-card-4">
+        <li class="w3-orange w3-xlarge w3-padding-32">
+            Contenidos<i class="fas fa-exclamation-circle"></i>
+            <i class="w3-medium"> falta seleccionar</i>
+        </li>
+        <li id="contenidos-1" class="opcion w3-padding-16" onclick="clickedListElement('contenidos-1', 'contenidos')">
+            No incluye las interfaces solicitadas
+        </li>
+        <li id="contenidos-2" class="opcion w3-padding-16 selected" onclick="clickedListElement('contenidos-2', 'contenidos')">
+            Faltan la mayoria de las interfaces
+        </li>
+        <li id="contenidos-3" class="opcion w3-padding-16" onclick="clickedListElement('contenidos-3', 'contenidos')">
+            Solo faltan 1 o 2 interfaces
+        </li>
+        <li id="contenidos-4" class="opcion w3-padding-16" onclick="clickedListElement('contenidos-4', 'contenidos')">
+            Incluye todas las interfaces solicitadas
+        </li>
       </ul>
     </div>
         
@@ -122,8 +130,8 @@ li{
           
       <div class="w3-panel w3-margin-bottom">
         <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-          <li class="w3-orange w3-xlarge w3-padding-32">Calidad del material
-              <i class="fas fa-exclamation-circle"></i><i class="w3-medium"> falta seleccionar</i></li> 
+          <li class="w3-orange w3-xlarge w3-padding-32">
+              Calidad del material<i class="fas fa-exclamation-circle"></i><i class="w3-medium"> falta seleccionar</i></li>
           <li class="opcion w3-padding-16">Presentación con muchos
               errores ortográficos, todas
               las imágenes son de baja
@@ -293,6 +301,29 @@ function onClick(element) {
   document.getElementById("modal01").style.display = "block";
   var captionText = document.getElementById("caption");
   captionText.innerHTML = element.alt;
+}
+
+// Function created to selecting one row
+function clickedListElement(list_element_id, list_id) {
+    // list_element_id is one element of the list of some Criterio
+    // list_id is the list headed by the Criterio title
+    let list = document.getElementById(list_id).getElementsByTagName("li");
+
+    // Change the selected raw
+    for (let i = 1; i < list.length; i++) {
+        list[i].classList.remove("selected"); // No error if not exists
+    }
+    let target_list_element = document.getElementById(list_element_id);
+    target_list_element.classList.add("selected");
+
+    // Change the Criterio title format
+    list[0].children[0].classList.add("far");
+    list[0].children[0].classList.add("fa-check-circle");
+    list[0].children[0].classList.remove("fas");
+    list[0].children[0].classList.remove("fa-exclamation-circle");
+    list[0].removeChild(list[0].children[1]);
+    list[0].classList.remove("w3-orange");
+    list[0].classList.add("w3-red");
 }
 </script>
 {%endblock page%}
