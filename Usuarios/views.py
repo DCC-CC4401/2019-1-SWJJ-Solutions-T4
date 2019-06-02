@@ -62,6 +62,16 @@ def cursos_admin(request, usuario_id):
                   {'usuario': usuario, 'nuevo_curso': form, 'listaCursos': listaCursos})
 
 
+def cursos_admin_create(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Cursos_admin_create.html', {'usuario': usuario})
+
+
+def cursos_admin_delete(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
+
+
 def evaluaciones_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     return render(request, 'Usuarios/Admin/Evaluaciones_admin.html', {'usuario': usuario})
