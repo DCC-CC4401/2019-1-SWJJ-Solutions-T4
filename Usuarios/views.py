@@ -74,7 +74,9 @@ def cursos_admin_create(request, usuario_id, id_curso):
         form = NuevoCurso(request.POST, request.FILES ,instance=curso)
         if form.is_valid():
             form.save()
-        return redirect('usuarios:cursos_admin', {'usuario' : usuario})
+        #return redirect('usuarios:cursos_admin', {'usuario' : usuario})
+        # SOL : https://stackoverflow.com/questions/13202385/django-reverse-with-arguments-and-keyword-arguments-not-found
+        return redirect(reverse('usuarios:cursos_admin',kwargs={'usuario_id' : usuario_id})) # Funciona
     return render(request,'Usuarios/Admin/Cursos_admin_create.html',{'form' : form, 'usuario': usuario, 'curso': curso})
 
 def cursos_admin_delete(request, usuario_id, id_curso):
@@ -82,7 +84,8 @@ def cursos_admin_delete(request, usuario_id, id_curso):
     curso = Course.objects.get(id = id_curso)
     if request.method == 'POST':
         curso.delete()
-        return redirect('usuarios:cursos_admin')
+        #return redirect('usuarios:cursos_admin')
+        return redirect(reverse('usuarios:cursos_admin', kwargs={'usuario_id': usuario_id})) # Funciona
     return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario ,'curso' : curso})
 
 #def cursos_admin_create(request, usuario_id):
