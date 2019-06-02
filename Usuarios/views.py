@@ -19,6 +19,8 @@ import csv
 
 ##para el json
 import json
+
+
 ##
 def login(request):
     if request.POST:
@@ -34,9 +36,7 @@ def login(request):
             user = Usuario_evaluador.objects.get(correo=username, password=password)
             return menu(request,user.id,user.isAdmin)
 
-
     return render(request, 'Usuarios/login.html')
-
 
 
 def courses(request):
@@ -93,15 +93,15 @@ def evaluaciones_admin_ver(request, usuario_id):
     return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario})
 
 
-def evaluaciones_admin_create(request, usuario_id): # TODO: Complete
+def evaluaciones_admin_create(request, usuario_id):  # TODO: Complete
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     if request.POST:
-        form = NuevaEvaluacion(request.POST,request.FILES)
+        form = NuevaEvaluacion(request.POST, request.FILES)
         if form.is_valid():
             # listaDeEvaluadores = form.cleaned_data.get('evaluadores')
             form.save()
     form = NuevaEvaluacion()
-    return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario, 'nueva_eval' : form})
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario, 'nueva_eval': form})
 
 
 def evaluadoresReq(request):
@@ -115,21 +115,19 @@ def evaluadores_admin(request, usuario_id):
     if request.POST:
         form = RegistroEvaluadorForm(request.POST, request.FILES)
         if form.is_valid():  # si no no crea los cleaned data
-            form.save(usuario_id) # por el override, ver forms
+            form.save(usuario_id)  # por el override, ver forms
 
     listaEvaluadores = evaluadoresReq(request)
     form = RegistroEvaluadorForm()
 
-
     # le paso el form, nuevo_curso a la página.
     return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_eval': form,
-                                                                     'listaEval' : listaEvaluadores})
+                                                                     'listaEval': listaEvaluadores})
 
 
 # Commit 15.05
 
 def rubricas_admin(request, usuario_id):
-
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     with open('rubricaJson.json', 'r') as f:
         data = json.load(f)
@@ -141,9 +139,7 @@ def rubricas_admin(request, usuario_id):
 
     print(rubricsNames)
 
-
-
-    return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario,'rubricsNames':rubricsNames})
+    return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario, 'rubricsNames': rubricsNames})
 
 
 def rubricas_admin_create(request, usuario_id):
@@ -152,17 +148,12 @@ def rubricas_admin_create(request, usuario_id):
     if request.POST:
         form = NuevaRubrica(request.POST, request.FILES)
 
-
-        new_rubrica = form.save(request.POST,usuario_id)
+        new_rubrica = form.save(request.POST, usuario_id)
         print("rubrica guardada con exito")
-
-
 
     form = NuevaRubrica()
 
-    return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario, 'nueva_rubrica':form})
-
-
+    return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario, 'nueva_rubrica': form})
 
 
 # para el registro
@@ -179,29 +170,28 @@ def registro(request):
 
     return render(request, 'Usuarios/registro/Registro.html', {'register_form': form})
 
-def rubricas_admin_ver(request,usuario_id,rubricaName):
+
+def rubricas_admin_ver(request, usuario_id, rubricaName):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
 
     with open('rubricaJson.json') as f:
         data = json.load(f)
-    data=data[str(usuario_id)][rubricaName]
-    matriz=parseJsonToMatriz(data,int(data.get("numFilas")),int(data.get("numColumnas")))
+    data = data[str(usuario_id)][rubricaName]
+    matriz = parseJsonToMatriz(data, int(data.get("numFilas")), int(data.get("numColumnas")))
+
+    return render(request, 'Usuarios/Admin/Rubricas_admin_ver.html',
+                  {'usuario': usuario, 'rubrica': data, 'rangei': range(int(data.get("numFilas"))),
+                   'rangej': range(int(data.get("numColumnas"))), 'matriz': matriz})
 
 
-    return render(request, 'Usuarios/Admin/Rubricas_admin_ver.html', {'usuario': usuario,'rubrica':data,'rangei':range(int(data.get("numFilas"))),'rangej':range(int(data.get("numColumnas"))),'matriz':matriz})
-
-def parseJsonToMatriz(data,numFilas,numColumnas):
-    filas=[]
+def parseJsonToMatriz(data, numFilas, numColumnas):
+    filas = []
     for i in range(numFilas):
-        columnas=[]
+        columnas = []
         for j in range(numColumnas):
-            s="f"+str(i)+"c"+str(j)
+            s = "f" + str(i) + "c" + str(j)
             columnas.append(data.get(s))
 
         filas.append(columnas)
 
-
     return filas
-
-
-
