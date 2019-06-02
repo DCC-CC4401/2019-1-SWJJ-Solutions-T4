@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 from .models import Usuario_admin, Usuario_evaluador, Grupo, Rubrica, Evaluacion
 from .models import Course
 
@@ -60,44 +62,67 @@ class NuevoCurso(forms.ModelForm): # Notar ModelForm
     def is_valid(self):
         return super(NuevoCurso, self).is_valid()
 
-    def save(self, *args, **kwargs):
-        course = Course(nombreCurso=self.cleaned_data['nombreCurso'], codigoCurso=self.cleaned_data['codigoCurso'],
-                        numSeccionCurso=self.cleaned_data['numSeccionCurso'], anioCurso=self.cleaned_data['anioCurso'],
-                        semesterCurso=self.cleaned_data['semesterCurso'])
+    # Al usar ModelForm no es necesario realizar este override...
+    #def save(self, *args, **kwargs):
+    #    course = Course(nombreCurso=self.cleaned_data['nombreCurso'], codigoCurso=self.cleaned_data['codigoCurso'],
+    #                    numSeccionCurso=self.cleaned_data['numSeccionCurso'], anioCurso=self.cleaned_data['anioCurso'],
+    #                    semesterCurso=self.cleaned_data['semesterCurso'])
+    #
+    #    course.save()
+    #    return course
 
-        course.save()
-        return course
-
-class RegistroEvaluadorForm(forms.Form):
-    name = forms.CharField(max_length=200,
-                           widget=forms.TextInput(attrs={'class': 'form-control'}),
-                           required=True)
-    app_paterno = forms.CharField(max_length=200,
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                  required=True,
-                                  label='Apelido Paterno')
-    app_materno = forms.CharField(max_length=200,
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                  required=False,
-                                  label='Apellido Materno')
-    password = forms.CharField(max_length=50,
-                               widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-                               required=True,
-                               label='Contraseña')
-    correo = forms.EmailField(max_length=100,
-                              widget=forms.TextInput(attrs={'class' : 'form-control'}),
-                              required=True)
+class RegistroEvaluadorForm(forms.ModelForm): # Changed to modelForm
+    class Meta:
+        model = Usuario_evaluador
+        fields = ("name",
+                  "app_paterno",
+                  "app_materno",
+                  "correo",)
+    #name = forms.CharField(max_length=200,
+    #                       widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #                       required=True)
+    #app_paterno = forms.CharField(max_length=200,
+    #                              widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #                              required=True,
+    #                              label='Apelido Paterno')
+    #app_materno = forms.CharField(max_length=200,
+    #                              widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #                              required=False,
+    #                              label='Apellido Materno')
+    #password = forms.CharField(max_length=50,
+    #                           widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    #                           required=True,
+    #                           label='Contraseña')
+    #correo = forms.EmailField(max_length=100,
+    #                          widget=forms.TextInput(attrs={'class' : 'form-control'}),
+    #                          required=True)
 
     def is_valid(self):
         return super(RegistroEvaluadorForm, self).is_valid()
 
-    def save(self, usuario_id,  *args, **kwargs):
-        evaluador = Usuario_evaluador(name=self.cleaned_data['name'], app_paterno=self.cleaned_data['app_paterno'],
-                              app_materno=self.cleaned_data['app_materno'], password=self.cleaned_data['password'],
-                                      correo=self.cleaned_data['correo'])
-        evaluador.myAdminID = Usuario_admin.objects.get(pk=usuario_id)
-        evaluador.save()
-        return evaluador
+    def save(self, usuario_id, evaluador_id = None,  *args, **kwargs):
+        if (evaluador_id is not None):
+            evaluador = evaluador_id # Literalmente recibe el objeto
+            name = self.cleaned_data['name']
+            app_paterno = self.cleaned_data['app_paterno']
+            app_materno = self.cleaned_data['app_materno']
+            # password no cambia...
+            correo = self.cleaned_data['correo']
+            evaluador.name = name
+            evaluador.app_paterno = app_paterno
+            evaluador.app_materno = app_materno
+            evaluador.correo = correo
+            evaluador.save()
+            return evaluador
+        else:
+            evaluador = Usuario_evaluador(name=self.cleaned_data['name'], app_paterno=self.cleaned_data['app_paterno'],
+                                  app_materno=self.cleaned_data['app_materno'],
+                                          password=User.objects.make_random_password(10),
+                                          # antes estaba password=self.cleaned_data['password']
+                                          correo=self.cleaned_data['correo'])
+            evaluador.myAdminID = Usuario_admin.objects.get(pk=usuario_id)
+            evaluador.save()
+            return evaluador
 
 class NuevaEvaluacion(forms.Form):
     nombre = forms.CharField(max_length=200,

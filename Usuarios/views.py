@@ -140,14 +140,37 @@ def evaluadores_admin(request, usuario_id):
                                                                      'listaEval' : listaEvaluadores})
 
 
-def evaluadores_admin_edit(request, usuario_id):
+#def evaluadores_admin_edit(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Evaluadores_admin_edit.html', {'usuario': usuario})
+
+def evaluadores_admin_edit(request, usuario_id, eval_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Evaluadores_admin_edit.html', {'usuario': usuario})
+    evaluador = Usuario_evaluador.objects.get(id=eval_id)
+    if request.method == 'GET':
+        form = RegistroEvaluadorForm(instance=evaluador)
+    else:
+        form = RegistroEvaluadorForm(request.POST, request.FILES ,instance=evaluador)
+        if form.is_valid():
+            form.save(usuario_id, evaluador) # Literalmente envia el objeto
+        #return redirect('usuarios:cursos_admin', {'usuario' : usuario})
+        # SOL : https://stackoverflow.com/questions/13202385/django-reverse-with-arguments-and-keyword-arguments-not-found
+        return redirect(reverse('usuarios:evaluadores_admin',kwargs={'usuario_id' : usuario_id})) # Funciona
+    return render(request,'Usuarios/Admin/Evaluadores_admin_edit.html',{'form' : form, 'usuario': usuario, 'eval': evaluador})
 
 
-def evaluadores_admin_delete(request, usuario_id):
+#def evaluadores_admin_delete(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Evaluadores_admin_delete.html', {'usuario': usuario})
+
+def evaluadores_admin_delete(request, usuario_id, eval_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Evaluadores_admin_delete.html', {'usuario': usuario})
+    evaluador = Usuario_evaluador.objects.get(id=eval_id)
+    if request.method == 'POST':
+        evaluador.delete()
+        #return redirect('usuarios:cursos_admin')
+        return redirect(reverse('usuarios:evaluadores_admin',kwargs={'usuario_id' : usuario_id})) # Funciona
+    return render(request, 'Usuarios/Admin/Evaluadores_admin_delete.html', {'usuario': usuario ,'eval': evaluador})
 
 
 # Commit 15.05
