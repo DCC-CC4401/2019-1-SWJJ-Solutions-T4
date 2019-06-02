@@ -32,9 +32,10 @@
             <!-- Es un button por iteracion anterior no tiene funcionamiento-->
             <div id="botonera" class="w3-margin-top w3-center">
                 <!-- Aqui se agregaron botones -->
-                <button class="w3-btn w3-red " href="{% url 'usuarios:cursos_admin_create' curso.id id.usuario.id%}">Modificar</button>
-                <a class = "w3-btn w3-red"  href="{% url 'usuarios:cursos_admin_create' curso.id usuario.id %}">Modificar2</a>
-                <button class="w3-btn w3-red"  href="{% url 'usuarios:cursos_admin_delete' curso.id usuario.id %}">Eliminar</button>
+                <button class="w3-btn w3-red " href="{% url 'usuarios:cursos_admin_create' usuario.id curso.id %}">Modificar</button>
+                <a class = "w3-btn w3-red"  href="{% url 'usuarios:cursos_admin_create' usuario.id curso.id %}">Modificar2</a>
+                <button class="w3-btn w3-red"  href="{% url 'usuarios:cursos_admin_delete' usuario.id curso.id %}">Eliminar</button>
+                <a class = "w3-btn w3-red"  href="{% url 'usuarios:cursos_admin_delete' usuario.id curso.id %}">Eliminar2</a>
             </div>
         </div>
 
