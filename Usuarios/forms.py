@@ -31,22 +31,30 @@ class RegistroUsuarioForm(forms.Form):
         return admin
 
 
-class NuevoCurso(forms.Form):
-    nombreCurso = forms.CharField(max_length=250,
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                  required=True)
-    codigoCurso = forms.CharField(max_length=8,
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                  required=True)
-    numSeccionCurso = forms.IntegerField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True)
-    anioCurso = forms.IntegerField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True)
-    semesterCurso = forms.IntegerField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True)
+class NuevoCurso(forms.ModelForm): # Notar ModelForm
+    class Meta:
+        model = Course
+        fields = ("nombreCurso",
+                  "codigoCurso",
+                  "numSeccionCurso",
+                  "anioCurso",
+                  "semesterCurso",)
+
+    #nombreCurso = forms.CharField(max_length=250,
+    #                              widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #                              required=True)
+    #codigoCurso = forms.CharField(max_length=8,
+    #                              widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #                              required=True)
+    #numSeccionCurso = forms.IntegerField(
+    #    widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #    required=True)
+    #anioCurso = forms.IntegerField(
+    #    widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #    required=True)
+    #semesterCurso = forms.IntegerField(
+    #    widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #    required=True)
 
 
     def is_valid(self):

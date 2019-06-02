@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Hello world
-</body>
-</html>
+{% extends 'Usuarios/menuAdmin.html' %}
+{% block page %}
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+    <form method="post" id="form" enctype="multipart/form-data">
+        <!--token, sirve cuando uno deja viva la sesion -->
+        {% csrf_token %}
+        <h3>¿Desea eliminar el curso {{ curso.nombreCurso }} {{ curso.codigoCurso }}-{{ curso.numSeccionCurso }}
+            {{ curso.anioCurso }} - {{ curso.semesterCurso }} ?</h3>
+        <button type="submit" class="btn btn-success" style="width: 100%; height: 60px; font-size: 31px; font-weight: bolder">Sí</button>
+        <a class = "btn btn-success"  href="{% url 'usuarios:cursos_admin' usuario.id %}">No</a>
+    </form>
+    </div>
+{% endblock %}

@@ -3,12 +3,15 @@ from django.shortcuts import render
 # tal vez deba borrar algunas de estas
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect # Added
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 ##
 
 # formularios
+from jedi.evaluate.context import instance
+
 from .forms import RegistroUsuarioForm, RegistroEvaluadorForm, NuevaEvaluacion
 from .forms import NuevoCurso
 ##
@@ -61,15 +64,38 @@ def cursos_admin(request, usuario_id):
     return render(request, 'Usuarios/Admin/Cursos_admin.html',
                   {'usuario': usuario, 'nuevo_curso': form, 'listaCursos': listaCursos})
 
-
-def cursos_admin_create(request, usuario_id):
+# TODO : Se encarga de editar o realizar update, ignorar nombre
+def cursos_admin_create(request, usuario_id, id_curso):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Cursos_admin_create.html', {'usuario': usuario})
+    curso = Course.objects.get(id=id_curso)
+    if request.method == 'GET':
+        form = NuevoCurso(instance=curso)
+    else:
+        form = NuevoCurso(request.POST, request.FILES ,instance=curso)
+        if form.is_valid():
+            form.save()
+        #return redirect('usuarios:cursos_admin', {'usuario' : usuario})
+        # SOL : https://stackoverflow.com/questions/13202385/django-reverse-with-arguments-and-keyword-arguments-not-found
+        return redirect(reverse('usuarios:cursos_admin',kwargs={'usuario_id' : usuario_id})) # Funciona
+    return render(request,'Usuarios/Admin/Cursos_admin_create.html',{'form' : form, 'usuario': usuario, 'curso': curso})
 
-
-def cursos_admin_delete(request, usuario_id):
+def cursos_admin_delete(request, usuario_id, id_curso):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
+    curso = Course.objects.get(id = id_curso)
+    if request.method == 'POST':
+        curso.delete()
+        #return redirect('usuarios:cursos_admin')
+        return redirect(reverse('usuarios:cursos_admin', kwargs={'usuario_id': usuario_id})) # Funciona
+    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario ,'curso' : curso})
+
+#def cursos_admin_create(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Cursos_admin_create.html', {'usuario': usuario})
+
+
+#def cursos_admin_delete(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
 
 
 def evaluaciones_admin(request, usuario_id):
