@@ -3,12 +3,15 @@ from django.shortcuts import render
 # tal vez deba borrar algunas de estas
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect # Added
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 ##
 
 # formularios
+from jedi.evaluate.context import instance
+
 from .forms import RegistroUsuarioForm, RegistroEvaluadorForm, NuevaEvaluacion
 from .forms import NuevoCurso
 ##
@@ -61,15 +64,34 @@ def cursos_admin(request, usuario_id):
     return render(request, 'Usuarios/Admin/Cursos_admin.html',
                   {'usuario': usuario, 'nuevo_curso': form, 'listaCursos': listaCursos})
 
+# TODO : Se encarga de editar o realizar update, ignorar nombre
+def cursos_admin_create(request, id_usuario, curso_id):
+    usuario = Usuario_admin.objects.get(pk=id_usuario)
+    curso = Course.objects.get(id=curso_id)
+    if request.method == 'GET':
+        form = NuevoCurso(instance=curso)
+    else:
+        form = NuevoCurso(request.POST,instance=curso)
+        if form.is_valid():
+            form.save()
+        return redirect('cursos_admin')
+    #return render(request,'Usuarios/Admin/Cursos_admin_create.html',{'form' : form, 'usuario': usuario, 'curso': curso})
 
-def cursos_admin_create(request, usuario_id):
-    usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Cursos_admin_create.html', {'usuario': usuario})
+def cursos_admin_delete(request, id_usuario, curso_id):
+    curso = Course.objects.get(id = curso_id)
+    if request.method == 'POST':
+        curso.delete()
+        return redirect('cursos_admin')
+    #return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'curso' : curso})
+
+#def cursos_admin_create(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Cursos_admin_create.html', {'usuario': usuario})
 
 
-def cursos_admin_delete(request, usuario_id):
-    usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
+#def cursos_admin_delete(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
 
 
 def evaluaciones_admin(request, usuario_id):
