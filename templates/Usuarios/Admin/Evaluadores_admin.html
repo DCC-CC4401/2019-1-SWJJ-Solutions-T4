@@ -10,6 +10,34 @@
     <p><h3>Seleccione un evaluador</h3></p>
   </div>
 
+    <!-- Si la lista de cursos no es vacía, se itera-->
+    {% if listaEval %} <!-- Verficiar si esta vacia -->
+    {%  for eval in listaEval %}
+      <!--Caja Ejemplo -->
+        <!-- El orden y margen esta dado por la class-->
+        <div class="w3-quarter w3-margin-top w3-center w3-margin">
+            <button {% comment %}onclick="document.getElementById('gestionar').style.display='block'" {% endcomment %}class="w3-card w3-container w3-hover-shadow w3-light-gray" style="min-height:317px">
+
+                <h3>Nombre y Apellido</h3>
+                    {{ eval.name }} {{ eval.app_paterno }} {{ eval.app_materno }}<br>
+                <i class="fas fa-book" style="font-size:100px"></i>
+                <p>Correo</p>
+                    {{ eval.correo }}
+                <!-- Patron para llamar de algo de django (back end) es con dos curly braces -->
+            </button>
+            <!-- Es un button por iteracion anterior no tiene funcionamiento-->
+            <div id="botonera" class="w3-margin-top w3-center">
+                <button class="w3-btn w3-red ">Modificar</button>
+                <button class="w3-btn w3-red">Eliminar</button>
+            </div>
+        </div>
+
+    {%  endfor %}
+         <!-- Caso contrario se indica que no hay cursos-->
+    {% else %}
+        <p>No evaluators</p>
+    {% endif %}
+
 <!--Cajas evaluadores-->
     <!--
 <div class="w3-row-padding w3-center w3-margin-top">
@@ -20,6 +48,8 @@
   <p>Correo</p>
   </button>
 </div>
+
+
     <div id="gestionar" class="w3-modal">
     <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="width:300px">
         <div class="w3-center"><br>

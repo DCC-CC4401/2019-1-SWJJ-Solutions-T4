@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-##talvez deba borrar algunas de estas
+# tal vez deba borrar algunas de estas
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate
@@ -8,13 +8,14 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 ##
 
-##formularios
-from .forms import RegistroUsuarioForm
+# formularios
+from .forms import RegistroUsuarioForm, RegistroEvaluadorForm, NuevaEvaluacion
 from .forms import NuevoCurso
 from .forms import NuevoEvaluador
 from .forms import NuevaRubrica
 ##
-from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje
+from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje, Usuario_evaluador
+import csv
 
 ##para el json
 import json
@@ -24,12 +25,18 @@ def login(request):
         username = request.POST.get('usuario')
         password = request.POST.get('password')
 
-        user = Usuario_admin.objects.get(name=username, password=password)
-
-        if user is not None:
+        # Verificar si es admin
+        if (Usuario_admin.objects.filter(name=username, password=password).exists()):
+            user = Usuario_admin.objects.get(name=username, password=password)
             return HttpResponseRedirect(reverse('usuarios:landing_admin', kwargs={'usuario_id': user.id}))
 
+        if (Usuario_evaluador.objects.filter(correo=username, password=password).exists()):
+            user = Usuario_evaluador.objects.get(correo=username, password=password)
+            return HttpResponseRedirect(reverse('usuarios:evaluaciones_admin', kwargs={'usuario_id': user.id}))
+
+
     return render(request, 'Usuarios/login.html')
+
 
 
 def courses(request):
@@ -60,31 +67,63 @@ def cursos_admin(request, usuario_id):
                   {'usuario': usuario, 'nuevo_curso': form, 'listaCursos': listaCursos})
 
 
+def cursos_admin_create(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Cursos_admin_create.html', {'usuario': usuario})
+
+
+def cursos_admin_delete(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
+
+
 def evaluaciones_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     return render(request, 'Usuarios/Admin/Evaluaciones_admin.html', {'usuario': usuario})
 
 
+def evaluaciones_admin_ver(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario})
+
+
+def evaluaciones_admin_create(request, usuario_id): # TODO: Complete
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    if request.POST:
+        form = NuevaEvaluacion(request.POST,request.FILES)
+        if form.is_valid():
+            # listaDeEvaluadores = form.cleaned_data.get('evaluadores')
+            form.save()
+    form = NuevaEvaluacion()
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario, 'nueva_eval' : form})
+
+
+def evaluadoresReq(request):
+    listaEvaluadores = Usuario_evaluador.objects.all()
+    return listaEvaluadores
+
+
 def evaluadores_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
 
-
     if request.POST:
-        form = NuevoEvaluador(request.POST, request.FILES)
+        form = RegistroEvaluadorForm(request.POST, request.FILES)
+        if form.is_valid():  # si no no crea los cleaned data
+            form.save(usuario_id) # por el override, ver forms
 
-        if form.is_valid():
+    listaEvaluadores = evaluadoresReq(request)
+    form = RegistroEvaluadorForm()
 
-            form.save(request.POST)
 
-    #aca
+    # le paso el form, nuevo_curso a la página.
+    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_eval': form,
+                                                                     'listaEval' : listaEvaluadores})
 
-    #
-    form = NuevoEvaluador()
 
-    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario,'nuevo_evaluador': form})
-
+# Commit 15.05
 
 def rubricas_admin(request, usuario_id):
+
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     with open('rubricaJson.json', 'r') as f:
         data = json.load(f)
@@ -115,7 +154,6 @@ def rubricas_admin_create(request, usuario_id):
     form = NuevaRubrica()
 
     return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario, 'nueva_rubrica':form})
-
 
 
 
