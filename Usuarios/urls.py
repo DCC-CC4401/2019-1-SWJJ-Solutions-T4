@@ -13,6 +13,8 @@ urlpatterns = [
     path('evaluaciones_admin_ver/<int:usuario_id>/', views.evaluaciones_admin_ver, name='evaluaciones_admin_ver'),
     path('evaluaciones_admin_create/<int:usuario_id>/', views.evaluaciones_admin_create, name='evaluaciones_admin_create'),
     path('evaluadores_admin/<int:usuario_id>/', views.evaluadores_admin, name='evaluadores_admin'),
+    path('evaluadores_admin_edit/<int:usuario_id>/', views.evaluadores_admin_edit, name='evaluadores_admin_edit'),
+    path('evaluadores_admin_delete/<int:usuario_id>/', views.evaluadores_admin_delete, name='evaluadores_admin_delete'),
     path('rubricas_admin/<int:usuario_id>/', views.rubricas_admin, name='rubricas_admin'),
     path('rubricas_admin_create/<int:usuario_id>/', views.rubricas_admin_create, name='rubricas_admin_create'),
 

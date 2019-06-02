@@ -114,6 +114,16 @@ def evaluadores_admin(request, usuario_id):
                                                                      'listaEval' : listaEvaluadores})
 
 
+def evaluadores_admin_edit(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Evaluadores_admin_edit.html', {'usuario': usuario})
+
+
+def evaluadores_admin_delete(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Evaluadores_admin_delete.html', {'usuario': usuario})
+
+
 # Commit 15.05
 def rubricas_admin(request, usuario_id):
     listaDeRubricas = Rubrica.objects.all()  # Sobre el se itera
