@@ -21,7 +21,8 @@
 
 
 
-        <form method="post" id="nueva_rubrica" enctype="multipart/form-data">
+        <form method="post" id="nueva_rubrica" action="{% url 'usuarios:rubricas_admin' usuario.id%}"
+              onsubmit="return checkPuntaje();" enctype="multipart/form-data">
             {% csrf_token %}
             <input placeholder="Titulo de la rubrica" name="tituloRubrica"><i class="fas fa-edit"></i>
             <div class = "w3-col" align="right">
@@ -64,7 +65,7 @@
                 <button type="button" class="button" onclick="borrarColumna()">Borrar columna  <i class="fas fa-trash"></i></button>
             </div>
 
-            <button type="submit" class="button1 button1" onclick="sendRubrica()">Guardar rúbrica  <i class="far fa-save"></i></button>
+            <button type="submit" class="button1 button1" >Guardar rúbrica  <i class="far fa-save"></i></button>
 
 
         </form>
@@ -197,6 +198,18 @@ function borrarColumna() {
     document.getElementById("idNumFilas").value=numFilas;
     document.getElementById("idNumCols").value=numCols-1;
     document.getElementById("matriz").innerHTML=b;
+}
+
+function checkPuntaje() {
+    // Se chequeara que el puntaje no sea mas de 6
+    let numFilas = document.getElementById("matriz").getElementsByClassName("button").length;
+    let numCols = document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
+    let filas = document.getElementById("matriz").getElementsByClassName("button");
+
+    let puntajes = [];
+    for (j = 1; j < numCols; j++) { // Se asume que en el 0 no hay puntaje
+        puntaje[i] =
+    }
 }
 
 </script>
