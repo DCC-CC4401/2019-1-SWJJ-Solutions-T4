@@ -15,56 +15,139 @@
   </div>
 
   <!--Seccion rubricas-->
-
-  <button onclick="myFunction('Demo3')" class="w3-btn w3-red w3-block w3-margin" style="width: 75%">
-    <h3>Evaluación 1</h3>
-  </button>
-
-  <div id="Demo3" class="w3-hide w3-container w3-pale-red  w3-padding-large w3-margin"style="width: 75%">
-    <p>
-      <li>Curso: -</li>
-      <li>Fecha inicio: -</li>
-      <li>Fecha término: -</li>
-      <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Rúbrica asociada</button>
-      <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Exportar puntajes</button><br>
-    </p>
-
-    <button class="w3-button w3-large w3-red w3-round">Ver</button>
-    <button class="w3-button w3-large w3-red w3-margin-left w3-round">Modificar</button>
-    <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
-  </div>
-
+  <!--
   <button onclick="myFunction('Demo4')" class="w3-btn w3-red w3-block w3-margin" style="width: 75%">
     <h3>Evaluación 2</h3>
   </button>
+  -->
 
   <div id="Demo4" class="w3-hide w3-container w3-pale-red w3-padding-large w3-margin"style="width: 75%">
+    <!--
     <p>
-      <li>Curso: -</li>
-      <li>Fecha inicio: -</li>
-      <li>Fecha término: -</li>
       <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Rúbrica asociada</button>
       <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Exportar puntajes</button><br>
-    </p>
+    </p>-->
       <!-- Ver: despliega un PopUp con las evaluaciones disponibles, ordenadas por grupo,
       de la presente evaluación -->
-      <button onclick="document.getElementById('ver').style.display='block'" class="w3-button w3-large w3-red w3-round">
+      <!--<button onclick="document.getElementById('ver').style.display='block'" class="w3-button w3-large w3-red w3-round">
         Ver
       </button>
       <button class="w3-button w3-large w3-red w3-margin-left w3-round">Modificar</button>
       <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
   </div>
 
-  <div id="ver" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-      <div class="w3-center"><br>
-        <span onclick="document.getElementById('ver').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
-        Hello, I'm a Popup<br/>
-        Here, in future, will be the opened evaluations to click on<br/>
-        Here's an example: <a href="{% url 'usuarios:evaluaciones_admin_ver' usuario.id%}">test.html</a>
-      </div>
-    </div>
+
+    -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </div>
+
+
+
+
+  <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Tareas
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+                <thead>
+                  <tr bgcolor="#fffaf0" >
+                    <th>Curso</th>
+                    <th>Tarea</th>
+                    <th>Creador</th>
+                    <th>Fecha Creacion</th>
+                    <th>Fecha Finalizacion</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+
+                {%for i in listaEval%}
+                  <tr id={{i}} bgcolor="#e6e6fa" onclick=evaluar()>
+                    <td >CC441-1</td>
+                    <td >{{ i}}</td>
+                    <td>david</td>
+                    <td>15/04/19</td>
+                    <td>--/--/--</td>
+                    <td>Pendiente</td>
+                  </tr>
+                </tbody>
+                {%endfor%}
+
+              </table>
+
+
+                <nav aria-label="...">
+                  <ul class="pagination">
+                    <li class="page-item disabled">
+                      <span class="page-link">anterior</span>
+                    </li>
+
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                    <li class="page-item">
+                      <a class="page-link" href="#">siguiente</a>
+                    </li>
+
+                  </ul>
+                </nav>
+            </div>
+          </div>
+        </div>
+
+          </div>
+  </div>
+
+
+
+
+
+
+
+
+
 
 </div>
 
@@ -78,6 +161,21 @@ function myFunction(id) {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+
+
+function  evaluar(pos) {
+
+  c="{% url 'usuarios:evaluaciones_admin_ver' usuario.id listaEval.0%}";
+  window.location=c;
+}
+
+
+
+
+
+
+
 </script>
 
 {%endblock page%}

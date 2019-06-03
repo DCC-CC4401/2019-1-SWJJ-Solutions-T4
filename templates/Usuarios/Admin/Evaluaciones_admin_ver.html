@@ -104,190 +104,44 @@ li{
     <p>Seleccione el nivel de logro alcanzado por el grupo en cada ámbito</p>
   </div>
 
+
+    <!-- Aqui deberia ir el form, respetando este "template" -->
+
     <div class="w3-panel  w3-margin-bottom">
+      {%for i in matriz%}
+
       <ul id="contenidos" class="w3-ul w3-light-grey w3-center w3-card-4">
         <li class="w3-orange w3-xlarge w3-padding-32">
-            Contenidos<i class="fas fa-exclamation-circle"></i>
+            {{i.0}}<i class="fas fa-exclamation-circle"></i>
             <i class="w3-medium"> falta seleccionar</i>
         </li>
+        {%for j in i%}
+        {%if not j in i.0%}
         <li id="contenidos-1" class="opcion w3-padding-16" onclick="clickedListElement('contenidos-1', 'contenidos')">
-            No incluye las interfaces solicitadas
-        </li>
-        <li id="contenidos-2" class="opcion w3-padding-16 selected" onclick="clickedListElement('contenidos-2', 'contenidos')">
-            Faltan la mayoria de las interfaces
-        </li>
-        <li id="contenidos-3" class="opcion w3-padding-16" onclick="clickedListElement('contenidos-3', 'contenidos')">
-            Solo faltan 1 o 2 interfaces
-        </li>
-        <li id="contenidos-4" class="opcion w3-padding-16" onclick="clickedListElement('contenidos-4', 'contenidos')">
-            Incluye todas las interfaces solicitadas
-        </li>
+            {{j}}
+            </li>
+        {%endif%}
+
+        {%endfor%}
+
       </ul>
+      {%endfor%}
     </div>
-        
-    
-    
-          
-      <div class="w3-panel w3-margin-bottom">
-        <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-          <li class="w3-orange w3-xlarge w3-padding-32">
-              Calidad del material<i class="fas fa-exclamation-circle"></i><i class="w3-medium"> falta seleccionar</i></li>
-          <li class="opcion w3-padding-16">Presentación con muchos
-              errores ortográficos, todas
-              las imágenes son de baja
-              resolución
-              </li>
-          <li class="opcion w3-padding-16">Algunos errores
-              ortográficos, casi todas las
-              imágenes son de baja
-              resolución
-              </li>
-          <li class="opcion w3-padding-16">Pocos errores ortográficos,solo algunas imágenes sonde baja resolución
-            </li>
-          <li class="opcion w3-padding-16">Pocos errores ortográficos,
-              todas las imágenes son de
-              buena resolución
-              </li>
-        </ul>
-      </div>
 
-      <div class="w3-panel w3-margin-bottom">
-        <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-          <li class="w3-red w3-xlarge w3-padding-32">Relación con requisitos
-              funcionales <i class="far fa-check-circle"></i>
-              
-            </li>
-          <li class="opcion w3-padding-16">Solo describe las
-              interfaces, sin mencionar
-              requisito alguno
-              
-              </li>
-          <li class="opcion w3-padding-16">Solo para algunas de las
-              interfaces explica cómo
-              satisfacen los requisitos
-              funcionales
-              
-              </li>
-          <li class="opcion w3-padding-16 selected">Para casi todas las
-              interfaces, explica cómo
-              satisfacen los requisitos
-              funcionales
-              </li>
-          <li class="opcion w3-padding-16">Explica claramente como
-              cada interfaz satisface los
-              requisitos funcionales
-              
-              </li>
-        </ul>
-      </div>
 
-      <div class="w3-panel w3-margin-bottom">
-          <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-            <li class="w3-red w3-xlarge w3-padding-32">Organización de la
-                información <i class="far fa-check-circle"></i>
-                
-              </li>
-            <li class="opcion w3-padding-16">No se entiende la
-                presentación porque no haysecuencia lógica de
-                información               
-                </li>
-            <li class="opcion w3-padding-16">Es difícil seguir la
-                presentación, porque el
-                presentador “salta” entre
-                diapositivas
-                
-                </li>
-            <li class="opcion w3-padding-16">La información está
-                presentada en una
-                secuencia lógica
-                
-                </li>
-            <li class="opcion w3-padding-16 selected">La información es
-                presentada en una forma
-                lógica e interesante                
-                
-                </li>
-          </ul>
-        </div>
 
-        <div class="w3-panel w3-margin-bottom">
-            <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-              <li class="w3-red w3-xlarge w3-padding-32">Forma <i class="far fa-check-circle"></i>
-                  
-                </li>
-              <li class="opcion w3-padding-16">No se entiende lo que dice(en términos fonéticos y
-                  cinéticos)
-                     
-                  </li>
-              <li class="opcion w3-padding-16">Se entiende lo que dice la
-                  de manera parcial (su
-                  cuerpo no acompaña sus
-                  palabras)
-                  
-                  </li>
-              <li class="opcion w3-padding-16 selected">Se da a entender,
-                  presentando de manera
-                  eficiente y adecuado
-                  lenguaje corporal
-                  
-                  </li>
-              <li class="opcion w3-padding-16">Se da a entender siempre,
-                  destacando en su forma
-                  (pausas, dicción, contacto
-                  visual, gesticulación, otros)
-                  
-                  </li>
-            </ul>
-          </div>
 
-          <div class="w3-panel w3-margin-bottom">
-              <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-                <li class="w3-red w3-xlarge w3-padding-32">Entusiasmo <i class="far fa-check-circle"></i>
-                    
-                  </li>
-                <li class="opcion w3-padding-16">No muestra interés en su
-                    entrega
-                    
-                    </li>
-                <li class="opcion w3-padding-16">Se muestra algo negativo
-                    acerca de su entrega
-                    
-                    </li>
-                <li class="opcion w3-padding-16 selected">Ocasionalmente habla en
-                    forma positiva
-                  
-                    </li>
-                <li class="opcion w3-padding-16">Habla en forma positiva
-                    durante casi toda la
-                    presentación                    
-                    </li>
-              </ul>
-            </div>
 
-            <div class="w3-panel w3-margin-bottom w3-card-4 w3-padding-16 w3-half w3-right" style="margin-right: 1.8%">
-                <span style="margin-left:21%"><i class="far fa-clock"></i> Hora final 
-                <input class="w3-input w3-border w3-round" type="number" size="1" placeholder="15" style="width:15%; display:inline; margin-left: 10px"> : <input class="w3-input w3-border w3-round" style="width:15%; display:inline" type="number" placeholder="35"></span>
-            </div>
+    <div class="w3-panel w3-margin-bottom w3-card-4 w3-padding-16 w3-half w3-right" style="margin-right: 1.8%">
+        <span style="margin-left:21%"><i class="far fa-clock"></i> Hora final
+        <input class="w3-input w3-border w3-round" type="number" size="1" placeholder="15" style="width:15%; display:inline; margin-left: 10px"> : <input class="w3-input w3-border w3-round" style="width:15%; display:inline" type="number" placeholder="35"></span>
+    </div>
 
-            <div id="confirmar" class="w3-modal">
-              <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-                <div class="w3-center"><br>
-                  <span onclick="document.getElementById('ver').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
-                    ¿Seguro que desea entregar?<br/>
-                    <a class="w3-button" href="{% url 'usuarios:evaluaciones_admin' usuario.id%}">Sí</a>
-                    <a class="w3-button" onclick="document.getElementById('confirmar').style.display='none'">No</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div class="w3-panel w3-right w3-half">
+        <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"> <i class="fas fa-envelope-open-text"></i> Entregar evaluación</button>
+    </div>
 
-            <div class="w3-panel w3-right w3-half">
-                <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"
-                        onclick="document.getElementById('confirmar').style.display='block'">
-                  <i class="fas fa-envelope-open-text"></i>
-                  Entregar evaluación
-                </button>
-            </div>
+
   </div>
   
 

@@ -167,3 +167,4 @@ db.sqlite3
 *.json
 # And the just tracked file...
 rubricaJson.json
+

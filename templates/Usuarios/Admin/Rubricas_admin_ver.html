@@ -21,59 +21,32 @@
 
 
 
-        <form method="post" id="nueva_rubrica" action="{% url 'usuarios:rubricas_admin' usuario.id%}"
-              enctype="multipart/form-data">
-            {% csrf_token %}
-            <input placeholder="Titulo de la rubrica" name="tituloRubrica"><i class="fas fa-edit"></i>
+        <div id="divRubrica">
+
+            <input placeholder={{ rubrica.tituloRubrica }} name="tituloRubrica">
             <div class = "w3-col" align="right">
                 <label>Intervalo de presentación</label>
-                <input placeholder="Ej: 7-10" name="intervalo">
+                <input placeholder={{ rubrica.intervalo }} name="intervalo">
             </div>
 
-
-            <input name="numFilas" id="idNumFilas" hidden value=3>
-            <input name="numColumnas" id="idNumCols" hidden value=4>
             <table id="matriz">
+                {% for i in matriz %}
                 <tr class="button">
-                    <td class="thD"><textarea name="f0c0" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f0c1" class="form-control" rows="3"></textarea></td>
-                    <!--<td class="thD"><textarea name="f0c1" class="form-control" rows="3">asignar puntaje</textarea></td>-->
-                    <td class="thD"><textarea name="f0c2" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f0c3" class="form-control" rows="3"></textarea></td>
+                    {% for j in i %}
+
+                    <td class="thD"><textarea name="f0c0" class="form-control" rows="3">{{j}}</textarea></td>
+                    {% endfor %}
 
                 </tr>
-                <tr class="button">
-                    <!--<td class="thD"><textarea name="f1c0" class="form-control" rows="3">Modificar aspecto</textarea></td>-->
-                    <td class="thD"><textarea name="f1c0" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f1c1" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f1c2" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f1c3" class="form-control" rows="3"></textarea></td>
-                </tr>
-                <tr class="button">
-                    <td class="thD"><textarea name="f2c0" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f2c1" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f2c2" class="form-control" rows="3"></textarea></td>
-                    <td class="thD"><textarea name="f2c3" class="form-control" rows="3"></textarea></td>
-                </tr>
+                {% endfor %}
+
 
             </table>
 
-            <div class="btn-group">
-                <button type="button" class="button" onclick="agregarFila()">Agregar fila  <i class="fas fa-plus"></i></button>
-                <button type="button" class="button" onclick="agregarColumna()" >Agregar columna  <i class="fas fa-plus"></i></button>
-                <button type="button" class="button" onclick="borrarFila()">Borrar fila  <i class="fas fa-trash"></i></button>
-                <button type="button" class="button" onclick="borrarColumna()">Borrar columna  <i class="fas fa-trash"></i></button>
-            </div>
 
-            <button type="submit" class="button1 button1" >Guardar rúbrica  <i class="far fa-save"></i></button>
-
-
-        </form>
-
+        </div>
 
   </div>
-
-
 
 
 
@@ -87,32 +60,8 @@
 <script>
 // Script to open and close sidebar
 function sendRubrica() {
-    // Se chequeara que el puntaje no sea mas de 6
-    let numFilas = document.getElementById("matriz").getElementsByClassName("button").length;
-    let numCols = document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
-    let filas = document.getElementById("matriz").getElementsByClassName("button");
-
-    let puntajes = [];
-    for (j = 1; j < numCols; j++) { // Se asume que en el 0 no hay puntaje
-        puntaje[i] = 2;
-    }
     location.href='/Usuarios/login.html';
 }
-
-function checkPuntaje() {
-    // Se chequeara que el puntaje no sea mas de 6
-    let numFilas = document.getElementById("matriz").getElementsByClassName("button").length;
-    let numCols = document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
-    let filas = document.getElementById("matriz").getElementsByClassName("button");
-
-    let puntajes = [];
-    for (j = 1; j < numCols; j++) { // Se asume que en el 0 no hay puntaje
-        puntaje[i] = 2;
-    }
-    //location.href='/Usuarios/login.html';
-    return false;
-}
-
 function agregarFila() {
     let filas=document.getElementById("matriz").getElementsByClassName("button");
     let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
@@ -128,13 +77,11 @@ function agregarFila() {
         }
         b=b+"</tr>";
     }
-
     //creo un nuevo button
     b=b+"<tr class=\"button\">";
     for(let j=0;j<numCols;j++){
         let textName="f"+numFilas+"c"+j;
         b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+" rows=\"3\"></textarea></td>";
-
         }
     b=b+"</tr>";
     //lo pongo
@@ -142,12 +89,10 @@ function agregarFila() {
     document.getElementById("idNumCols").value=numCols;
     document.getElementById("matriz").innerHTML=b;
 }
-
 function agregarColumna() {
     let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
     let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
     let filas=document.getElementById("matriz").getElementsByClassName("button");
-
     let b="";
     //por cada fila, debo agregar una columna nueva
     for(let i=0;i<numFilas;i++){
@@ -159,22 +104,16 @@ function agregarColumna() {
             let textName="f"+i+"c"+j;
             b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
         }
-
         //agrego la nueva columna
-
         let textName="f"+i+"c"+numCols;
         b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+ " rows=\"3\"></textarea></td>";
-
         b=b+"</tr>";
     }
     document.getElementById("idNumFilas").value=numFilas;
     document.getElementById("idNumCols").value=numCols+1;
     document.getElementById("matriz").innerHTML=b;
-
 }
-
 function borrarFila() {
-
     let filas=document.getElementById("matriz").getElementsByClassName("button");
     let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
     let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
@@ -192,15 +131,11 @@ function borrarFila() {
     document.getElementById("idNumFilas").value=numFilas-1;
     document.getElementById("idNumCols").value=numCols;
     document.getElementById("matriz").innerHTML=b;
-
-
 }
-
 function borrarColumna() {
     let numFilas=document.getElementById("matriz").getElementsByClassName("button").length;
     let numCols=document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
     let filas=document.getElementById("matriz").getElementsByClassName("button");
-
     let b="";
     //por cada fila, debo agregar una columna nueva
     for(let i=0;i<numFilas;i++){
@@ -212,19 +147,16 @@ function borrarColumna() {
             let textName="f"+i+"c"+j;
             b=b+"<td class=\"thD\"><textarea class=\"form-control\""+ "name="+textName+" rows=\"3\">"+ textoDelTextArea +"</textarea></td>";
         }
-
         b=b+"</tr>";
     }
     document.getElementById("idNumFilas").value=numFilas;
     document.getElementById("idNumCols").value=numCols-1;
     document.getElementById("matriz").innerHTML=b;
 }
-
 </script>
 
 
 <style>
-
 body {font-family: Arial, Helvetica, sans-serif;}
 .form-inline label {
     margin: 5px 0 5px 0;
@@ -248,7 +180,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .form-inline button:hover {
     background-color: #FFA07A;
 }
-
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -260,12 +191,10 @@ td, th {
     border: 1px solid #665f5f;
     text-align: left;
     width: 5%;
-
 }
 tr:nth-child(even) {
     background-color: #FFA07A;
 }
-
 .btn-group .button {
     background-color: #c6bdbb;
     border: none;
@@ -281,7 +210,6 @@ tr:nth-child(even) {
 }
 .btn-group .button { border-radius: 12px;}
 .btn-group .button:hover { background-color: #FFA07A; }
-
 .button1 {
     background-color: #BF1010;
     border: none;
