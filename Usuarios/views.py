@@ -30,11 +30,11 @@ def login(request):
         # Verificar si es admin
         if (Usuario_admin.objects.filter(name=username, password=password).exists()):
             user = Usuario_admin.objects.get(name=username, password=password)
-            return HttpResponseRedirect(reverse('usuarios:landing_admin', kwargs={'usuario_id': user.id}))
+            return menu(request,user.id,user.isAdmin)
 
         if (Usuario_evaluador.objects.filter(correo=username, password=password).exists()):
             user = Usuario_evaluador.objects.get(correo=username, password=password)
-            return HttpResponseRedirect(reverse('usuarios:evaluaciones_admin', kwargs={'usuario_id': user.id}))
+            return menu(request,user.id,user.isAdmin)
 
     return render(request, 'Usuarios/login.html')
 
@@ -44,9 +44,12 @@ def courses(request):
     return listaCursos
 
 
-def menu(request, usuario_id):
+def menu(request, usuario_id,isAdmin):
     # aca deberia haccerse la autenticaciondel usuario.
-    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    if isAdmin==1:
+        usuario = Usuario_admin.objects.get(pk=usuario_id)
+    else:
+        usuario= Usuario_evaluador.objects.get(pk=usuario_id)
 
     return render(request, 'Usuarios/Admin/Landing_admin.html', {'usuario': usuario})
 
@@ -77,8 +80,11 @@ def cursos_admin_delete(request, usuario_id):
     return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
 
 
-def evaluaciones_admin(request, usuario_id):
-    usuario = Usuario_admin.objects.get(pk=usuario_id)
+def evaluaciones_admin(request, usuario_id,isAdmin):
+    if isAdmin==1:
+        usuario = Usuario_admin.objects.get(pk=usuario_id)
+    else:
+        usuario = Usuario_evaluador.objects.get(pk=usuario_id)
     return render(request, 'Usuarios/Admin/Evaluaciones_admin.html', {'usuario': usuario})
 
 
@@ -115,7 +121,7 @@ def evaluadores_admin(request, usuario_id):
     form = RegistroEvaluadorForm()
 
     # le paso el form, nuevo_curso a la página.
-    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_eval': form,
+    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_evaluador': form,
                                                                      'listaEval': listaEvaluadores})
 
 
@@ -130,6 +136,7 @@ def rubricas_admin(request, usuario_id):
     if data:
         for key in data[str(usuario_id)]:
             rubricsNames.append(key)
+
     print(rubricsNames)
 
     return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario, 'rubricsNames': rubricsNames})

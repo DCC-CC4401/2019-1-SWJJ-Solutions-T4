@@ -24,12 +24,18 @@ body {font-size:16px;}
     <h3 class="w3-padding-64"><center><b>{{ usuario.name }}</b></center></h3>
   </div>
   <div class="w3-bar-block">
-    <a href="{% url 'usuarios:landing_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    {%if usuario.isAdmin %}
+    <a href="{% url 'usuarios:landing_admin' usuario.id 1%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    <a href="{% url 'usuarios:evaluaciones_admin' usuario.id 1%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
     <a href="{% url 'usuarios:cursos_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Cursos</a>
     <a href="{% url 'usuarios:evaluadores_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluadores</a>
-    <a href="{% url 'usuarios:rubricas_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rúbricas</a>
-    <a href="{% url 'usuarios:evaluaciones_admin' usuario.id%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
+    <a href="{% url 'usuarios:rubricas_admin' usuario.id %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rúbricas</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Contact</a>
+    {%else%}
+    <a href="{% url 'usuarios:landing_admin' usuario.id 0%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    <a href="{% url 'usuarios:evaluaciones_admin' usuario.id 0%}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
+
+    {%endif%}
   </div>
 </nav>
 
