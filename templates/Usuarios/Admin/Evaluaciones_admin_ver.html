@@ -108,28 +108,26 @@ li{
     <!-- Aqui deberia ir el form, respetando este "template" -->
 
       {%for i in matriz%}
-    <div class="w3-panel  w3-margin-bottom">
+          {% if not i.0 in "" %}
+            <div class="w3-panel  w3-margin-bottom">
 
-      <ul id="{{ i.0 }}" class="w3-ul w3-light-grey w3-center w3-card-4">
-        <li class="w3-orange w3-xlarge w3-padding-32">
-            {{i.0}}<i class="fas fa-exclamation-circle"></i>
-            <i class="w3-medium"> falta seleccionar</i>
-        </li>
-        {%for j in i%}
-        {%if not j in i.0%}
-        <li id="{{ j }}" class="opcion w3-padding-16" onclick="clickedListElement('{{ j }}', '{{ i.0 }}')">
-            {{j}}
-        </li>
-        {%endif%}
+              <ul id="{{ i.0 }}" class="w3-ul w3-light-grey w3-center w3-card-4">
+                <li class="w3-orange w3-xlarge w3-padding-32">
+                    {{i.0}}<i class="fas fa-exclamation-circle"></i>
+                    <i class="w3-medium"> falta seleccionar</i>
+                </li>
+                {%for j in i%}
+                {%if not j in i.0%}
+                <li id="{{ j }}" class="opcion w3-padding-16" onclick="clickedListElement('{{ j }}', '{{ i.0 }}')">
+                    {{j}}
+                </li>
+                {%endif%}
+                {%endfor%}
 
-        {%endfor%}
-
-      </ul>
-    </div>
+              </ul>
+            </div>
+          {% endif %}
       {%endfor%}
-
-
-
 
 
 
@@ -139,9 +137,28 @@ li{
     </div>
 
     <div class="w3-panel w3-right w3-half">
-        <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"> <i class="fas fa-envelope-open-text"></i> Entregar evaluación</button>
+        <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"
+                onclick="document.getElementById('confirmar').style.display='block'">
+          <i class="fas fa-envelope-open-text"></i>
+          Entregar evaluación
+        </button>
     </div>
 
+    <div id="confirmar" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+        <div class="w3-center"><br>
+          <span onclick="document.getElementById('confirmar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+            ¿Seguro que desea entregar?<br/>
+            {% if usuario.isAdmin %}
+                <a class="w3-button w3-red" href="{% url 'usuarios:evaluaciones_admin' usuario.id 1%}">Sí</a>
+            {% else %}
+                <a class="w3-button w3-red" href="{% url 'usuarios:evaluaciones_admin' usuario.id 0%}">Sí</a>
+            {% endif %}
+            <a class="w3-button w3-red" onclick="document.getElementById('confirmar').style.display='none'">No</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
   
