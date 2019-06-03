@@ -86,12 +86,32 @@ def evaluaciones_admin(request, usuario_id,isAdmin):
         usuario = Usuario_admin.objects.get(pk=usuario_id)
     else:
         usuario = Usuario_evaluador.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Evaluaciones_admin.html', {'usuario': usuario})
 
 
-def evaluaciones_admin_ver(request, usuario_id):
+
+    #esta parte esta harcodeada, pero se deberia arreglar, cuando el modelo Evaluacion este listo
+    listaEval = []
+    listaEval.append("tarea1")
+    listaEval.append("tarea2")
+
+
+
+
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin.html', {'usuario': usuario,'listaEval':listaEval})
+
+
+def evaluaciones_admin_ver(request, usuario_id,rubrica_name):
+
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario})
+    with open('rubricaJson.json', 'r') as f:
+        data = json.load(f)
+
+    if data:
+        if str(usuario_id) in data:
+            j=data[str(usuario_id)][rubrica_name]
+            matriz = parseJsonToMatriz(j, int(j.get("numFilas")), int(j.get("numColumnas")))
+    print(j.get("numColumnas"))
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario,'rubrica':j,'matriz':matriz,'rangeCol':range(int(j.get("numColumnas"))-1)})
 
 
 def evaluaciones_admin_create(request, usuario_id):  # TODO: Complete
@@ -147,9 +167,6 @@ def rubricas_admin(request, usuario_id):
         if str(usuario_id) in data:
             for key in data[str(usuario_id)]:
                 rubricsNames.append(key)
-        else:
-            print("caca")
-
     print(rubricsNames)
 
     return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario, 'rubricsNames': rubricsNames})

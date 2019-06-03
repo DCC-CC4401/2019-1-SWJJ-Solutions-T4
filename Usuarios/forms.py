@@ -176,8 +176,13 @@ class NuevaEvaluacion(forms.Form):
                              required=True)
     curso = forms.ModelChoiceField(queryset=Course.objects.all())  # De aquí es posible generar distintos forms
     equipo = forms.ModelChoiceField(queryset=Grupo.objects.all())
+
+    with open('rubricaJson.json', 'r') as f:
+        data = json.load(f)
+
     rubrica = forms.ModelChoiceField(queryset=Rubrica.objects.all())
-    # evaluadores = forms.ModelMultipleChoiceField(queryset=Usuario_evaluador.objects.all())
+
+    evaluadores = forms.ModelMultipleChoiceField(queryset=Usuario_evaluador.objects.all())
 
     def is_valid(self):
         return super(NuevaEvaluacion, self).is_valid()

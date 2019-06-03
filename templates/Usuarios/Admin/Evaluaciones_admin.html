@@ -36,15 +36,7 @@
       <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
   </div>
 
-  <div id="ver" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-      <div class="w3-center"><br>
-        <span onclick="document.getElementById('ver').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
-        Hello, I'm a Popup<br/>
-        Here, in future, will be the opened evaluations to click on<br/>
-        Here's an example: <a href="{% url 'usuarios:evaluaciones_admin_ver' usuario.id%}">test.html</a>
-      </div>
-    </div>
+
     -->
 
 
@@ -106,24 +98,19 @@
                 </thead>
 
                 <tbody>
-                  <tr bgcolor="#e6e6fa" onclick="evaluar(0)">
+
+
+                {%for i in listaEval%}
+                  <tr id={{i}} bgcolor="#e6e6fa" onclick=evaluar()>
                     <td >CC441-1</td>
-                    <td>tarea1</td>
+                    <td >{{ i}}</td>
                     <td>david</td>
                     <td>15/04/19</td>
                     <td>--/--/--</td>
                     <td>Pendiente</td>
                   </tr>
-                  <tr bgcolor="#e6e6fa" onclick="evaluar(1)">
-                    <td>CC4401-1</td>
-                    <td>tarea2</td>
-                    <td>david</td>
-                    <td>27/03/19</td>
-                    <td>--/--/--</td>
-                    <td>Pendiente</td>
-                  </tr>
-
                 </tbody>
+                {%endfor%}
 
               </table>
 
@@ -178,7 +165,9 @@ function myFunction(id) {
 
 
 function  evaluar(pos) {
-  window.location="{% url 'usuarios:evaluaciones_admin_ver' usuario.id listaEvaluacione[pos]%}";
+
+  c="{% url 'usuarios:evaluaciones_admin_ver' usuario.id listaEval.0%}";
+  window.location=c;
 }
 
 
