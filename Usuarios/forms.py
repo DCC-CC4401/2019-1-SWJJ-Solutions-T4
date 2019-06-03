@@ -71,8 +71,6 @@ def generateJsonFromPost(post):
 def jsonisacion(data, rubrica, idUsuario):
     if data:
         a = data
-
-        a[str(idUsuario)][rubrica.get("tituloRubrica")] = rubrica
         if str(idUsuario) in data:
             a=data
             a[str(idUsuario)][rubrica.get("tituloRubrica")]=rubrica
