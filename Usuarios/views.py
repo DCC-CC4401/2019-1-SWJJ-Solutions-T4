@@ -141,10 +141,14 @@ def rubricas_admin(request, usuario_id):
     with open('rubricaJson.json', 'r') as f:
         data = json.load(f)
 
+
     rubricsNames = []
     if data:
-        for key in data[str(usuario_id)]:
-            rubricsNames.append(key)
+        if str(usuario_id) in data:
+            for key in data[str(usuario_id)]:
+                rubricsNames.append(key)
+        else:
+            print("caca")
 
     print(rubricsNames)
 
@@ -177,9 +181,7 @@ def registro(request):
 
         if form.is_valid():
             new_admin = form.save()
-
-            return HttpResponseRedirect(reverse('usuarios:landing_admin', kwargs={'usuario_id': new_admin.id}))
-
+            return menu(request, new_admin.id, new_admin.isAdmin)
     form = RegistroUsuarioForm()
 
     return render(request, 'Usuarios/registro/Registro.html', {'register_form': form})

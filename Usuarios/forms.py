@@ -73,6 +73,12 @@ def jsonisacion(data, rubrica, idUsuario):
         a = data
 
         a[str(idUsuario)][rubrica.get("tituloRubrica")] = rubrica
+        if str(idUsuario) in data:
+            a=data
+            a[str(idUsuario)][rubrica.get("tituloRubrica")]=rubrica
+        else:
+            a=data
+            a[str(idUsuario)]={rubrica.get("tituloRubrica"): rubrica}
     else:
         a = {str(idUsuario): {rubrica.get("tituloRubrica"): rubrica}}
     return a
@@ -171,7 +177,6 @@ class NuevaEvaluacion(forms.Form):
     curso = forms.ModelChoiceField(queryset=Course.objects.all())  # De aquí es posible generar distintos forms
     equipo = forms.ModelChoiceField(queryset=Grupo.objects.all())
     rubrica = forms.ModelChoiceField(queryset=Rubrica.objects.all())
-
     # evaluadores = forms.ModelMultipleChoiceField(queryset=Usuario_evaluador.objects.all())
 
     def is_valid(self):
