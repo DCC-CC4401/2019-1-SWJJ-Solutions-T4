@@ -116,9 +116,11 @@ def evaluaciones_admin(request, usuario_id,isAdmin):
     return render(request, 'Usuarios/Admin/Evaluaciones_admin.html', {'usuario': usuario,'listaEval':listaEval})
 
 
-def evaluaciones_admin_ver(request, usuario_id,rubrica_name):
-
-    usuario = Usuario_admin.objects.get(pk=usuario_id)
+def evaluaciones_admin_ver(request, usuario_id,rubrica_name, isAdmin):
+    if isAdmin == 1:
+        usuario = Usuario_admin.objects.get(pk=usuario_id)
+    else:
+        usuario = Usuario_evaluador.objects.get(pk=usuario_id)
     with open('rubricaJson.json', 'r') as f:
         data = json.load(f)
 

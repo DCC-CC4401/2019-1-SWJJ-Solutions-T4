@@ -130,11 +130,15 @@ li{
       {%endfor%}
 
 
-
+  {% if usuario.isAdmin %}
     <div class="w3-panel w3-margin-bottom w3-card-4 w3-padding-16 w3-half w3-right" style="margin-right: 1.8%">
         <span style="margin-left:21%"><i class="far fa-clock"></i> Hora final
         <input class="w3-input w3-border w3-round" type="number" size="1" placeholder="15" style="width:15%; display:inline; margin-left: 10px"> : <input class="w3-input w3-border w3-round" style="width:15%; display:inline" type="number" placeholder="35"></span>
     </div>
+  {% else %}
+      <div>
+      </div>
+  {% endif %}
 
     <div class="w3-panel w3-right w3-half">
         <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"

@@ -99,16 +99,19 @@
 
                 <tbody>
 
-
                 {%for i in listaEval%}
-                  <tr id={{i}} bgcolor="#e6e6fa" onclick=evaluar()>
-                    <td >CC441-1</td>
-                    <td >{{ i}}</td>
-                    <td>david</td>
-                    <td>15/04/19</td>
-                    <td>--/--/--</td>
-                    <td>Pendiente</td>
-                  </tr>
+                    {% if usuario.isAdmin %}
+                      <tr id={{i}} bgcolor="#e6e6fa" onclick=evaluar(1)>
+                    {% else %}
+                      <tr id={{i}} bgcolor="#e6e6fa" onclick=evaluar(0)>
+                    {% endif %}
+                        <td >CC441-1</td>
+                        <td >{{ i}}</td>
+                        <td>david</td>
+                        <td>15/04/19</td>
+                        <td>--/--/--</td>
+                        <td>Pendiente</td>
+                      </tr>
                 </tbody>
                 {%endfor%}
 
@@ -164,9 +167,12 @@ function myFunction(id) {
 
 
 
-function  evaluar(pos) {
-
-  c="{% url 'usuarios:evaluaciones_admin_ver' usuario.id listaEval.0%}";
+function  evaluar(isAdmin) {
+    if (isAdmin) {
+        c="{% url 'usuarios:evaluaciones_admin_ver' usuario.id listaEval.0 1%}";
+    }
+    else
+        c="{% url 'usuarios:evaluaciones_admin_ver' usuario.id listaEval.0 0%}";
   window.location=c;
 }
 
