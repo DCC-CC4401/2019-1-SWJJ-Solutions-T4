@@ -79,3 +79,7 @@ From now on, you just need the following command to start this project's local s
  registrar, se debe revisar en Usuario/views registro y quizas el modelo)
  
  1.3) si un usuario se logea y se equivoca, sale un error bastante feo (se debe revisar login)
+ 
+2) gestor de evaluadores:
+
+ 1.1) cambiar monito de evaluadores

@@ -1,19 +1,22 @@
 from django.shortcuts import render
 
-##talvez deba borrar algunas de estas
+# tal vez deba borrar algunas de estas
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect # Added
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 ##
 
-##formularios
-from .forms import RegistroUsuarioForm
+# formularios
+from jedi.evaluate.context import instance
+
+from .forms import RegistroUsuarioForm, RegistroEvaluadorForm, NuevaEvaluacion
 from .forms import NuevoCurso
-from .forms import NuevoEvaluador
 ##
-from .models import Usuario_admin
+from .models import Usuario_admin, Course, Rubrica, Criterio, Puntaje, Usuario_evaluador
+import csv
 
 
 def login(request):
@@ -21,12 +24,22 @@ def login(request):
         username = request.POST.get('usuario')
         password = request.POST.get('password')
 
-        user = Usuario_admin.objects.get(name=username, password=password)
-
-        if user is not None:
+        # Verificar si es admin
+        if (Usuario_admin.objects.filter(name=username, password=password).exists()):
+            user = Usuario_admin.objects.get(name=username, password=password)
             return HttpResponseRedirect(reverse('usuarios:landing_admin', kwargs={'usuario_id': user.id}))
 
+        if (Usuario_evaluador.objects.filter(correo=username, password=password).exists()):
+            user = Usuario_evaluador.objects.get(correo=username, password=password)
+            return HttpResponseRedirect(reverse('usuarios:evaluaciones_admin', kwargs={'usuario_id': user.id}))
+
+
     return render(request, 'Usuarios/login.html')
+
+
+def courses(request):
+    listaCursos = Course.objects.all()
+    return listaCursos
 
 
 def menu(request, usuario_id):
@@ -39,19 +52,50 @@ def menu(request, usuario_id):
 def cursos_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
 
-
     if request.POST:
         form = NuevoCurso(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid():  # si no no crea los cleaned data
             form.save()
 
-
+    listaCursos = courses(request)
     form = NuevoCurso()
 
+    # le paso el form, nuevo_curso a la página.
+    return render(request, 'Usuarios/Admin/Cursos_admin.html',
+                  {'usuario': usuario, 'nuevo_curso': form, 'listaCursos': listaCursos})
+
+# TODO : Se encarga de editar o realizar update, ignorar nombre
+def cursos_admin_create(request, usuario_id, id_curso):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    curso = Course.objects.get(id=id_curso)
+    if request.method == 'GET':
+        form = NuevoCurso(instance=curso)
+    else:
+        form = NuevoCurso(request.POST, request.FILES ,instance=curso)
+        if form.is_valid():
+            form.save()
+        #return redirect('usuarios:cursos_admin', {'usuario' : usuario})
+        # SOL : https://stackoverflow.com/questions/13202385/django-reverse-with-arguments-and-keyword-arguments-not-found
+        return redirect(reverse('usuarios:cursos_admin',kwargs={'usuario_id' : usuario_id})) # Funciona
+    return render(request,'Usuarios/Admin/Cursos_admin_create.html',{'form' : form, 'usuario': usuario, 'curso': curso})
+
+def cursos_admin_delete(request, usuario_id, id_curso):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    curso = Course.objects.get(id = id_curso)
+    if request.method == 'POST':
+        curso.delete()
+        #return redirect('usuarios:cursos_admin')
+        return redirect(reverse('usuarios:cursos_admin', kwargs={'usuario_id': usuario_id})) # Funciona
+    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario ,'curso' : curso})
+
+#def cursos_admin_create(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Cursos_admin_create.html', {'usuario': usuario})
 
 
-    ##le paso el form, nuevo_curso a la pagina.
-    return render(request, 'Usuarios/Admin/Cursos_admin.html', {'usuario': usuario,'nuevo_curso': form})
+#def cursos_admin_delete(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Cursos_admin_delete.html', {'usuario': usuario})
 
 
 def evaluaciones_admin(request, usuario_id):
@@ -59,21 +103,114 @@ def evaluaciones_admin(request, usuario_id):
     return render(request, 'Usuarios/Admin/Evaluaciones_admin.html', {'usuario': usuario})
 
 
-def evaluadores_admin(request, usuario_id):
+def evaluaciones_admin_ver(request, usuario_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario})
+
+
+def evaluaciones_admin_create(request, usuario_id): # TODO: Complete
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     if request.POST:
-        form = NuevoEvaluador(request.POST, request.FILES)
+        form = NuevaEvaluacion(request.POST,request.FILES)
         if form.is_valid():
+            # listaDeEvaluadores = form.cleaned_data.get('evaluadores')
             form.save()
+    form = NuevaEvaluacion()
+    return render(request, 'Usuarios/Admin/Evaluaciones_admin_create.html', {'usuario': usuario, 'nueva_eval' : form})
 
-    form = NuevoEvaluador()
-    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_evaluador': form})
+
+def evaluadoresReq(request):
+    listaEvaluadores = Usuario_evaluador.objects.all()
+    return listaEvaluadores
 
 
-def rubricas_admin(request, usuario_id):
+def evaluadores_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
-    return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario})
 
+    if request.POST:
+        form = RegistroEvaluadorForm(request.POST, request.FILES)
+        if form.is_valid():  # si no no crea los cleaned data
+            form.save(usuario_id) # por el override, ver forms
+
+    listaEvaluadores = evaluadoresReq(request)
+    form = RegistroEvaluadorForm()
+
+    # le paso el form, nuevo_curso a la página.
+    return render(request, 'Usuarios/Admin/Evaluadores_admin.html', {'usuario': usuario, 'nuevo_eval' : form,
+                                                                     'listaEval' : listaEvaluadores})
+
+
+#def evaluadores_admin_edit(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Evaluadores_admin_edit.html', {'usuario': usuario})
+
+def evaluadores_admin_edit(request, usuario_id, eval_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    evaluador = Usuario_evaluador.objects.get(id=eval_id)
+    if request.method == 'GET':
+        form = RegistroEvaluadorForm(instance=evaluador)
+    else:
+        form = RegistroEvaluadorForm(request.POST, request.FILES ,instance=evaluador)
+        if form.is_valid():
+            form.save(usuario_id, evaluador) # Literalmente envia el objeto
+        #return redirect('usuarios:cursos_admin', {'usuario' : usuario})
+        # SOL : https://stackoverflow.com/questions/13202385/django-reverse-with-arguments-and-keyword-arguments-not-found
+        return redirect(reverse('usuarios:evaluadores_admin',kwargs={'usuario_id' : usuario_id})) # Funciona
+    return render(request,'Usuarios/Admin/Evaluadores_admin_edit.html',{'form' : form, 'usuario': usuario, 'eval': evaluador})
+
+
+#def evaluadores_admin_delete(request, usuario_id):
+#    usuario = Usuario_admin.objects.get(pk=usuario_id)
+#    return render(request, 'Usuarios/Admin/Evaluadores_admin_delete.html', {'usuario': usuario})
+
+def evaluadores_admin_delete(request, usuario_id, eval_id):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    evaluador = Usuario_evaluador.objects.get(id=eval_id)
+    if request.method == 'POST':
+        evaluador.delete()
+        #return redirect('usuarios:cursos_admin')
+        return redirect(reverse('usuarios:evaluadores_admin',kwargs={'usuario_id' : usuario_id})) # Funciona
+    return render(request, 'Usuarios/Admin/Evaluadores_admin_delete.html', {'usuario': usuario ,'eval': evaluador})
+
+
+# Commit 15.05
+def rubricas_admin(request, usuario_id):
+    listaDeRubricas = Rubrica.objects.all()  # Sobre el se itera
+    coleccionDeCriterios = []  # Se enviará al html
+    nombresRubricas = []  # Se enviará al html
+
+    for rubrica in listaDeRubricas:
+        nombresRubricas.append(rubrica.nombre)  # toString?
+        with open(rubrica.dataTable) as datosDeLaRubrica:
+            buffer = csv.reader(datosDeLaRubrica, delimiter=';')  # Se lee en un formato dado, excel lo separo por ;
+            criterios = []  # Una nueva lista de criterios
+
+            iterableBuffer = list(
+                buffer)  # Evitar este error:
+            # https://stackoverflow.com/questions/32038776/csv-reader-object-is-not-subscriptable
+
+            slicedBuffer = iterableBuffer[2:]  # Se quitan los titulos y el tiempo asociado
+            for row in slicedBuffer:
+                criterios.append(row[0])  # Se agrega el nombre del criterio
+            coleccionDeCriterios.append(criterios)  # Se agrega el criterio
+
+    iterableListForHTML = []
+    for i in range(len(listaDeRubricas)):
+        l = []
+        l.append(nombresRubricas[i])
+        l.append(coleccionDeCriterios[i])
+        l.append(i)
+        iterableListForHTML.append(l)
+
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Rubricas_admin.html',
+                  {'usuario': usuario, 'listaConRubricas': iterableListForHTML})
+
+
+def rubricas_admin_create(request, usuario_id):
+    # Esta es
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+    return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario})
 
 # para el registro
 def registro(request):
