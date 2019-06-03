@@ -3,6 +3,7 @@ from django.shortcuts import render
 # tal vez deba borrar algunas de estas
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -129,6 +130,14 @@ def evaluadores_admin(request, usuario_id):
 
 def rubricas_admin(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
+
+    # Primero que nada, guardar una nueva rubrica
+    if request.POST:
+        form = NuevaRubrica(request.POST, request.FILES)
+
+        new_rubrica = form.save(request.POST, usuario_id)
+        print("rubrica guardada con exito")
+
     with open('rubricaJson.json', 'r') as f:
         data = json.load(f)
 
@@ -145,11 +154,16 @@ def rubricas_admin(request, usuario_id):
 def rubricas_admin_create(request, usuario_id):
     usuario = Usuario_admin.objects.get(pk=usuario_id)
     # Esta es
-    if request.POST:
-        form = NuevaRubrica(request.POST, request.FILES)
-
-        new_rubrica = form.save(request.POST, usuario_id)
-        print("rubrica guardada con exito")
+#   Esto ahora se encuentra en rubricas_admin
+#    if request.POST:
+#        form = NuevaRubrica(request.POST, request.FILES)#
+#
+#        if form.is_valid():
+#           new_rubrica = form.save(request.POST, usuario_id)
+#            print("rubrica guardada con exito")
+#        else:
+#            print("Hay datos incorrectos")
+#            return render(request, 'Usuarios/Admin/Rubricas_admin_create.html', {'usuario': usuario, 'nueva_rubrica': form})
 
     form = NuevaRubrica()
 

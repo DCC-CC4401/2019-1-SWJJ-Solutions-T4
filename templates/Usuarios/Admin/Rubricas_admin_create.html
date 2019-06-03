@@ -22,7 +22,7 @@
 
 
         <form method="post" id="nueva_rubrica" action="{% url 'usuarios:rubricas_admin' usuario.id%}"
-              onsubmit="return checkPuntaje();" enctype="multipart/form-data">
+              enctype="multipart/form-data">
             {% csrf_token %}
             <input placeholder="Titulo de la rubrica" name="tituloRubrica"><i class="fas fa-edit"></i>
             <div class = "w3-col" align="right">
@@ -71,8 +71,6 @@
         </form>
 
 
-
-
   </div>
 
 
@@ -89,8 +87,30 @@
 <script>
 // Script to open and close sidebar
 function sendRubrica() {
-    location.href='/Usuarios/login.html';
+    // Se chequeara que el puntaje no sea mas de 6
+    let numFilas = document.getElementById("matriz").getElementsByClassName("button").length;
+    let numCols = document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
+    let filas = document.getElementById("matriz").getElementsByClassName("button");
 
+    let puntajes = [];
+    for (j = 1; j < numCols; j++) { // Se asume que en el 0 no hay puntaje
+        puntaje[i] = 2;
+    }
+    location.href='/Usuarios/login.html';
+}
+
+function checkPuntaje() {
+    // Se chequeara que el puntaje no sea mas de 6
+    let numFilas = document.getElementById("matriz").getElementsByClassName("button").length;
+    let numCols = document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
+    let filas = document.getElementById("matriz").getElementsByClassName("button");
+
+    let puntajes = [];
+    for (j = 1; j < numCols; j++) { // Se asume que en el 0 no hay puntaje
+        puntaje[i] = 2;
+    }
+    //location.href='/Usuarios/login.html';
+    return false;
 }
 
 function agregarFila() {
@@ -198,18 +218,6 @@ function borrarColumna() {
     document.getElementById("idNumFilas").value=numFilas;
     document.getElementById("idNumCols").value=numCols-1;
     document.getElementById("matriz").innerHTML=b;
-}
-
-function checkPuntaje() {
-    // Se chequeara que el puntaje no sea mas de 6
-    let numFilas = document.getElementById("matriz").getElementsByClassName("button").length;
-    let numCols = document.getElementById("matriz").getElementsByClassName("button").item(0).getElementsByClassName("thD").length;
-    let filas = document.getElementById("matriz").getElementsByClassName("button");
-
-    let puntajes = [];
-    for (j = 1; j < numCols; j++) { // Se asume que en el 0 no hay puntaje
-        puntaje[i] =
-    }
 }
 
 </script>

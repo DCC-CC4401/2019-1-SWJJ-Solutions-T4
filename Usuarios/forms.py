@@ -2,8 +2,8 @@ from django import forms
 from .models import Usuario_admin, Usuario_evaluador, Grupo, Rubrica, Evaluacion
 from .models import Course
 
-
 import json
+
 
 class RegistroUsuarioForm(forms.Form):
     name = forms.CharField(max_length=200,
@@ -50,7 +50,6 @@ class NuevoCurso(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=True)
 
-
     def is_valid(self):
         return super(NuevoCurso, self).is_valid()
 
@@ -62,71 +61,69 @@ class NuevoCurso(forms.Form):
         course.save()
         return course
 
-def generateJsonFromPost(post):
-    rubrica=post
 
+def generateJsonFromPost(post):
+    rubrica = post
 
     return rubrica
 
-def jsonisacion(data,rubrica,idUsuario):
-    if data:
-        a=data
 
-        a[str(idUsuario)][rubrica.get("tituloRubrica")]=rubrica
+def jsonisacion(data, rubrica, idUsuario):
+    if data:
+        a = data
+
+        a[str(idUsuario)][rubrica.get("tituloRubrica")] = rubrica
     else:
-        a={str(idUsuario):{rubrica.get("tituloRubrica"): rubrica}}
+        a = {str(idUsuario): {rubrica.get("tituloRubrica"): rubrica}}
     return a
+
 
 class NuevaRubrica(forms.Form):
 
-
-    def save(self,POST,userId):
+    def save(self, POST, userId):
         ##aqui va json
 
-        rubrica=generateJsonFromPost(POST)
+        rubrica = generateJsonFromPost(POST)
 
-        with open('rubricaJson.json','r') as f:
+        with open('rubricaJson.json', 'r') as f:
             data = json.load(f)
 
-
-        newJson=jsonisacion(data,rubrica,userId)
-
-
-
-
+        newJson = jsonisacion(data, rubrica, userId)
 
         with open('rubricaJson.json', 'w') as json_file:
             json.dump(newJson, json_file)
 
-
         ##aqui va json
 
-        #print(POST)
+        # print(POST)
         print("guardado")
 
         return False
 
+    def is_valid(self):
+        return super(NuevaRubrica, self).is_valid()
 
 
 class NuevoEvaluador(forms.Form):
     nombre = forms.CharField(max_length=200,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             required=True)
+
+    app_paterno = forms.CharField(max_length=200,
                                   widget=forms.TextInput(attrs={'class': 'form-control'}),
                                   required=True)
 
-    app_paterno=forms.CharField(max_length=200,
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                  required=True)
-
-    correo=forms.EmailField(max_length=200,
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                  required=True)
+    correo = forms.EmailField(max_length=200,
+                              widget=forms.TextInput(attrs={'class': 'form-control'}),
+                              required=True)
 
     def is_valid(self):
         return super(NuevoEvaluador, self).is_valid()
 
-
-    def save(self,POST):
-        nuevoEvaluador = Usuario_evaluador(nombreEvaluador=self.cleaned_data['nombre'], app_paterno=self.cleaned_data['app_paterno'], correo=self.cleaned_data['correo'])
+    def save(self, POST):
+        nuevoEvaluador = Usuario_evaluador(nombreEvaluador=self.cleaned_data['nombre'],
+                                           app_paterno=self.cleaned_data['app_paterno'],
+                                           correo=self.cleaned_data['correo'])
 
         nuevoEvaluador.save()
 
@@ -150,36 +147,39 @@ class RegistroEvaluadorForm(forms.Form):
                                required=True,
                                label='Contraseña')
     correo = forms.EmailField(max_length=100,
-                              widget=forms.TextInput(attrs={'class' : 'form-control'}),
+                              widget=forms.TextInput(attrs={'class': 'form-control'}),
                               required=True)
 
     def is_valid(self):
         return super(RegistroEvaluadorForm, self).is_valid()
 
-    def save(self, usuario_id,  *args, **kwargs):
+    def save(self, usuario_id, *args, **kwargs):
         print("rrrrrrrrr")
         evaluador = Usuario_evaluador(name=self.cleaned_data['name'], app_paterno=self.cleaned_data['app_paterno'],
-                              app_materno=self.cleaned_data['app_materno'], password=self.cleaned_data['password'],
+                                      app_materno=self.cleaned_data['app_materno'],
+                                      password=self.cleaned_data['password'],
                                       correo=self.cleaned_data['correo'])
         evaluador.myAdminID = Usuario_admin.objects.get(pk=usuario_id)
         evaluador.save()
         return evaluador
 
+
 class NuevaEvaluacion(forms.Form):
     nombre = forms.CharField(max_length=200,
-                           widget=forms.TextInput(attrs={'class': 'form-control'}),
-                           required=True)
-    curso = forms.ModelChoiceField(queryset=Course.objects.all()) # De aquí es posible generar distintos forms
+                             widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             required=True)
+    curso = forms.ModelChoiceField(queryset=Course.objects.all())  # De aquí es posible generar distintos forms
     equipo = forms.ModelChoiceField(queryset=Grupo.objects.all())
     rubrica = forms.ModelChoiceField(queryset=Rubrica.objects.all())
+
     # evaluadores = forms.ModelMultipleChoiceField(queryset=Usuario_evaluador.objects.all())
 
     def is_valid(self):
         return super(NuevaEvaluacion, self).is_valid()
 
-    def save(self,  *args, **kwargs):
+    def save(self, *args, **kwargs):
         evaluacion = Evaluacion(nombre=self.cleaned_data['nombre'], curso=self.cleaned_data['curso'],
-                              equipo=self.cleaned_data['equipo'], rubrica=self.cleaned_data['rubrica']
+                                equipo=self.cleaned_data['equipo'], rubrica=self.cleaned_data['rubrica']
                                 )
         evaluacion.save()
         return evaluacion
