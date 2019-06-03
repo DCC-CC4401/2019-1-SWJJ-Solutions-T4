@@ -269,8 +269,24 @@ li{
                 <input class="w3-input w3-border w3-round" type="number" size="1" placeholder="15" style="width:15%; display:inline; margin-left: 10px"> : <input class="w3-input w3-border w3-round" style="width:15%; display:inline" type="number" placeholder="35"></span>
             </div>
 
+            <div id="confirmar" class="w3-modal">
+              <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+                <div class="w3-center"><br>
+                  <span onclick="document.getElementById('ver').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+                    ¿Seguro que desea entregar?<br/>
+                    <a class="w3-button" href="{% url 'usuarios:evaluaciones_admin' usuario.id%}">Sí</a>
+                    <a class="w3-button" onclick="document.getElementById('confirmar').style.display='none'">No</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="w3-panel w3-right w3-half">
-                <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"> <i class="fas fa-envelope-open-text"></i> Entregar evaluación</button>
+                <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"
+                        onclick="document.getElementById('confirmar').style.display='block'">
+                  <i class="fas fa-envelope-open-text"></i>
+                  Entregar evaluación
+                </button>
             </div>
   </div>
   
