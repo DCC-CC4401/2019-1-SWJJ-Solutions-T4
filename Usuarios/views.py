@@ -127,7 +127,7 @@ def evaluaciones_admin_ver(request, usuario_id,rubrica_name, isAdmin):
         if str(usuario_id) in data:
             j=data[str(usuario_id)][rubrica_name]
             matriz = parseJsonToMatriz(j, int(j.get("numFilas")), int(j.get("numColumnas")))
-    print(j.get("numColumnas"))
+            print(j.get("numColumnas"))
     return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario,'rubrica':j,'matriz':matriz,'rangeCol':range(int(j.get("numColumnas"))-1)})
 
 
