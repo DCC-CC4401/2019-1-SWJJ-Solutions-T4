@@ -118,16 +118,28 @@ def evaluaciones_admin(request, usuario_id,isAdmin):
 def evaluaciones_admin_ver(request, usuario_id,rubrica_name, isAdmin):
     if isAdmin == 1:
         usuario = Usuario_admin.objects.get(pk=usuario_id)
+
+        with open('rubricaJson.json', 'r') as f:
+            data = json.load(f)
+
+        if data:
+            if str(usuario_id) in data:
+                j = data[str(usuario_id)][rubrica_name]
+                matriz = parseJsonToMatriz(j, int(j.get("numFilas")), int(j.get("numColumnas")))
+                print(j.get("numColumnas"))
+
     else:
         usuario = Usuario_evaluador.objects.get(pk=usuario_id)
-    with open('rubricaJson.json', 'r') as f:
-        data = json.load(f)
 
-    if data:
-        if str(usuario_id) in data:
-            j=data[str(usuario_id)][rubrica_name]
-            matriz = parseJsonToMatriz(j, int(j.get("numFilas")), int(j.get("numColumnas")))
-            print(j.get("numColumnas"))
+        with open('rubricaJson.json', 'r') as f:
+            data = json.load(f)
+
+        if data:
+            if str(usuario.myAdminID.id) in data:
+                j = data[str(usuario.myAdminID.id)][rubrica_name]
+                matriz = parseJsonToMatriz(j, int(j.get("numFilas")), int(j.get("numColumnas")))
+                print(j.get("numColumnas"))
+
     return render(request, 'Usuarios/Admin/Evaluaciones_admin_ver.html', {'usuario': usuario,'rubrica':j,'matriz':matriz,'rangeCol':range(int(j.get("numColumnas"))-1)})
 
 
