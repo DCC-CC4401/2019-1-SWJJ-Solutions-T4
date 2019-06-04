@@ -111,15 +111,16 @@ li{
           {% if not i.0 in "" %}
             <div class="w3-panel  w3-margin-bottom">
 
-              <ul id="{{ i.0 }}" class="w3-ul w3-light-grey w3-center w3-card-4">
+              <ul id="{{ forloop.counter0 }}" class="w3-ul w3-light-grey w3-center w3-card-4">
                 <li class="w3-orange w3-xlarge w3-padding-32">
-                    {{i.0}}<i class="fas fa-exclamation-circle"></i>
+                    {{ i.0 }}<i class="fas fa-exclamation-circle"></i>
                     <i class="w3-medium"> falta seleccionar</i>
                 </li>
                 {%for j in i%}
                 {%if not j in i.0%}
-                <li id="{{ j }}" class="opcion w3-padding-16" onclick="clickedListElement('{{ j }}', '{{ i.0 }}')">
-                    {{j}}
+                <li id="{{ forloop.counter0 }}{{ forloop.parentloop.counter0 }}" class="opcion w3-padding-16"
+                    onclick="clickedListElement('{{ forloop.counter0 }}{{ forloop.parentloop.counter0 }}', '{{ forloop.parentloop.counter0 }}')">
+                    {{ j }}
                 </li>
                 {%endif%}
                 {%endfor%}
@@ -199,6 +200,7 @@ function onClick(element) {
 function clickedListElement(list_element_id, list_id) {
     // list_element_id is one element of the list of some Criterio
     // list_id is the list headed by the Criterio title
+
     let list = document.getElementById(list_id).getElementsByTagName("li");
 
     // Change the selected raw
@@ -217,5 +219,6 @@ function clickedListElement(list_element_id, list_id) {
     list[0].classList.remove("w3-orange");
     list[0].classList.add("w3-red");
 }
+
 </script>
 {%endblock page%}
