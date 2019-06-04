@@ -11,7 +11,6 @@ from django.contrib.auth import logout
 ##
 
 # formularios
-from jedi.evaluate.context import instance
 
 from .forms import RegistroUsuarioForm, RegistroEvaluadorForm, NuevaEvaluacion
 from .forms import NuevoCurso
@@ -266,6 +265,28 @@ def rubricas_admin_ver(request, usuario_id, rubricaName):
     return render(request, 'Usuarios/Admin/Rubricas_admin_ver.html',
                   {'usuario': usuario, 'rubrica': data, 'rangei': range(int(data.get("numFilas"))),
                    'rangej': range(int(data.get("numColumnas"))), 'matriz': matriz})
+
+def rubricas_admin_eliminar(request, usuario_id, rubricaName):
+    usuario = Usuario_admin.objects.get(pk=usuario_id)
+
+    with open('rubricaJson.json') as f:
+        data = json.load(f)
+
+    del data[str(usuario_id)][rubricaName]
+
+    with open('rubricaJson.json', 'w') as json_file:
+        json.dump(data, json_file)
+
+    rubricsNames = []
+    if data:
+        if str(usuario_id) in data:
+            for key in data[str(usuario_id)]:
+                rubricsNames.append(key)
+    print(rubricsNames)
+
+    return render(request, 'Usuarios/Admin/Rubricas_admin.html', {'usuario': usuario, 'rubricsNames': rubricsNames})
+
+
 
 
 def parseJsonToMatriz(data, numFilas, numColumnas):

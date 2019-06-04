@@ -24,8 +24,8 @@
 </p>
     <div class="w3-container">
       <a class="w3-button w3-large w3-margin-right w3-red w3-left w3-round" href="{% url 'usuarios:rubricas_admin_ver' usuario.id i%}">Ver</a>
-  <button class="w3-button w3-large w3-red w3-left w3-round">Modificar</button>
-  <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
+  <a class="w3-button w3-large w3-red w3-left w3-round">Modificar</a>
+  <a class="w3-button w3-large w3-red w3-right w3-round" href="{% url 'usuarios:rubricas_admin_eliminar' usuario.id i%}">Eliminar</a>
 </div>
 </div>
 

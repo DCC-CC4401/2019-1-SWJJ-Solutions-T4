@@ -24,6 +24,8 @@ urlpatterns = [
     path('rubricas_admin_create/<int:usuario_id>/', views.rubricas_admin_create, name='rubricas_admin_create'),
     path('rubricas_admin_ver/<int:usuario_id>/<str:rubricaName>', views.rubricas_admin_ver, name='rubricas_admin_ver'),
 
+    path('rubricas_admin_eliminar/<int:usuario_id>/<str:rubricaName>', views.rubricas_admin_eliminar, name='rubricas_admin_eliminar'),
+
     # para registrarse
     path('registro/', views.registro, name='registro'),
 ]
