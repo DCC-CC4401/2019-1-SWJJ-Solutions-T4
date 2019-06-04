@@ -69,17 +69,24 @@ From now on, you just need the following command to start this project's local s
 * **Sofía Castro** - [cinnamontea](https://github.com/cinnamontea)
 
 
-##problemas
-1) login:
- 
- 1.1)al hacer login, no se hace un checkeo de los inputs para posibles
+## Problemas / TO-DOs
+
+### Login
+(David)
+
+ 1) al hacer login, no se hace un checkeo de los inputs para posibles
  inyeciones sql o html (se debe revisar en Usuarios/views.py la funcion login)
  
- 1.2)al registrarse, un usuario puede escribir un nombre ya existente (se debe mejorar
+ 2) al registrarse, un usuario puede escribir un nombre ya existente (se debe mejorar
  registrar, se debe revisar en Usuario/views registro y quizas el modelo)
  
- 1.3) si un usuario se logea y se equivoca, sale un error bastante feo (se debe revisar login)
+ 3) si un usuario se logea y se equivoca, sale un error bastante feo (se debe revisar login)
  
-2) gestor de evaluadores:
+###Gestor de evaluadores 
+ 1)cambiar monito de evaluadores
+ 
 
- 1.1) cambiar monito de evaluadores
+### Cursos
+ (Sofía)
+ 
+ 1) Reordenar para que "Agregar Curso" quede primero (sino se va al fondo).
